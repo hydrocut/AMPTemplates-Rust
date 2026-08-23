@@ -220,5 +220,325 @@
     "DefaultValue": "",
     "Placeholder": "Kits,Economics,AdminRadar",
     "Keywords": "umod oxide plugins mods"
+  },
+  {
+    "DisplayName": "P01 - Gather Manager",
+    "Description": "Increases the amount of items gained from gathering resources (661 916 téléchargements sur umod.org — plugin GatherManager)",
+    "FieldName": "UmodP_GatherManager",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_GatherManager",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin gathermanager"
+  },
+  {
+    "DisplayName": "P02 - Stack Size Controller",
+    "Description": "Allows setting the max stack size of every item (588 054 téléchargements sur umod.org — plugin StackSizeController)",
+    "FieldName": "UmodP_StackSizeController",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_StackSizeController",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin stacksizecontroller"
+  },
+  {
+    "DisplayName": "P03 - Vanish",
+    "Description": "Allows players with permission to become truly invisible (501 331 téléchargements sur umod.org — plugin Vanish)",
+    "FieldName": "UmodP_Vanish",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_Vanish",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin vanish"
+  },
+  {
+    "DisplayName": "P04 - Rust Kits",
+    "Description": "Item kits  autokits  kit cooldowns  and more (481 893 téléchargements sur umod.org — plugin Kits)",
+    "FieldName": "UmodP_Kits",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_Kits",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin kits"
+  },
+  {
+    "DisplayName": "P05 - Image Library",
+    "Description": "Plugin API for managing images (466 776 téléchargements sur umod.org — plugin ImageLibrary)",
+    "FieldName": "UmodP_ImageLibrary",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_ImageLibrary",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin imagelibrary"
+  },
+  {
+    "DisplayName": "P06 - NTeleportation",
+    "Description": "Multiple teleportation systems for admin and players (430 152 téléchargements sur umod.org — plugin NTeleportation)",
+    "FieldName": "UmodP_NTeleportation",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_NTeleportation",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin nteleportation"
+  },
+  {
+    "DisplayName": "P07 - Admin Radar",
+    "Description": "Allows admins to have a radar to help detect cheaters and other entities (411 354 téléchargements sur umod.org — plugin AdminRadar)",
+    "FieldName": "UmodP_AdminRadar",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_AdminRadar",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin adminradar"
+  },
+  {
+    "DisplayName": "P08 - Remover Tool",
+    "Description": "Building and entity removal tool (410 155 téléchargements sur umod.org — plugin RemoverTool)",
+    "FieldName": "UmodP_RemoverTool",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_RemoverTool",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin removertool"
+  },
+  {
+    "DisplayName": "P09 - Copy Paste",
+    "Description": "Copy and paste your buildings to save them or move them (390 788 téléchargements sur umod.org — plugin CopyPaste)",
+    "FieldName": "UmodP_CopyPaste",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_CopyPaste",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin copypaste"
+  },
+  {
+    "DisplayName": "P10 - No Give Notices",
+    "Description": "Prevents F1 item giving notices from showing in the chat (382 204 téléchargements sur umod.org — plugin NoGiveNotices)",
+    "FieldName": "UmodP_NoGiveNotices",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_NoGiveNotices",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin nogivenotices"
+  },
+  {
+    "DisplayName": "P11 - Backpacks",
+    "Description": "Allows players to have backpacks that provide them with extra inventory space (335 539 téléchargements sur umod.org — plugin Backpacks)",
+    "FieldName": "UmodP_Backpacks",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_Backpacks",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin backpacks"
+  },
+  {
+    "DisplayName": "P12 - Better Loot",
+    "Description": "A complete re-work of the native drop system. (331 215 téléchargements sur umod.org — plugin BetterLoot)",
+    "FieldName": "UmodP_BetterLoot",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_BetterLoot",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin betterloot"
+  },
+  {
+    "DisplayName": "P13 - Quick Smelt",
+    "Description": "Increases the speed of the furnace smelting (306 614 téléchargements sur umod.org — plugin QuickSmelt)",
+    "FieldName": "UmodP_QuickSmelt",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_QuickSmelt",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin quicksmelt"
+  },
+  {
+    "DisplayName": "P14 - Furnace Splitter",
+    "Description": "Splits up ores into equal stacks when you put them into furnaces (278 602 téléchargements sur umod.org — plugin FurnaceSplitter)",
+    "FieldName": "UmodP_FurnaceSplitter",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_FurnaceSplitter",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin furnacesplitter"
+  },
+  {
+    "DisplayName": "P15 - True PVE",
+    "Description": "Better PVE/PVP implementation (251 615 téléchargements sur umod.org — plugin TruePVE)",
+    "FieldName": "UmodP_TruePVE",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_TruePVE",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin truepve"
+  },
+  {
+    "DisplayName": "P16 - Instant Craft",
+    "Description": "Allows players to instantly craft items with features (235 063 téléchargements sur umod.org — plugin InstantCraft)",
+    "FieldName": "UmodP_InstantCraft",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_InstantCraft",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin instantcraft"
+  },
+  {
+    "DisplayName": "P17 - Raidable Bases",
+    "Description": "Create fully automated raidable bases with NPCs (217 868 téléchargements sur umod.org — plugin RaidableBases)",
+    "FieldName": "UmodP_RaidableBases",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_RaidableBases",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin raidablebases"
+  },
+  {
+    "DisplayName": "P18 - Death Notes",
+    "Description": "Broadcasts deaths to chat along with detailed information. (216 985 téléchargements sur umod.org — plugin DeathNotes)",
+    "FieldName": "UmodP_DeathNotes",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_DeathNotes",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin deathnotes"
+  },
+  {
+    "DisplayName": "P19 - Admin Panel",
+    "Description": "A small GUI panel of clickable commands for admins (213 662 téléchargements sur umod.org — plugin AdminPanel)",
+    "FieldName": "UmodP_AdminPanel",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_AdminPanel",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin adminpanel"
+  },
+  {
+    "DisplayName": "P20 - Zone Manager",
+    "Description": "Advanced zone manager for creating in-game zones (206 774 téléchargements sur umod.org — plugin ZoneManager)",
+    "FieldName": "UmodP_ZoneManager",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Plugins populaires",
+    "ParamFieldName": "UmodP_ZoneManager",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    },
+    "Keywords": "umod plugin zonemanager"
   }
 ]
