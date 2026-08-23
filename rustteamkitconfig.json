@@ -210,7 +210,7 @@
   },
   {
     "DisplayName": "41 - Plugins uMod (noms separes par des virgules)",
-    "Description": "Plugins telecharges depuis umod.org et mis a jour automatiquement a chaque demarrage (necessite Oxide coche). Noms exacts en PascalCase, ex. Kits,Economics,AdminRadar,Backpacks. Un plugin retire de la liste reste sur le disque : le supprimer dans oxide/plugins/ via le File Manager. Configs des plugins dans oxide/config/.",
+    "Description": "Plugins téléchargés depuis umod.org et mis à jour automatiquement à chaque démarrage (nécessite Oxide coché). Noms exacts en PascalCase, ex. Kits,Economics,Welcomer. Catalogue complet : https://umod.org/plugins — un plugin retiré de la liste reste sur le disque (le supprimer dans oxide/plugins/). Configs dans oxide/config/.",
     "FieldName": "UmodPlugins",
     "InputType": "text",
     "Category": "Rust TeamKit",
@@ -223,7 +223,7 @@
   },
   {
     "DisplayName": "P01 - Gather Manager",
-    "Description": "Augmente les quantités récoltées (bois, minerai, etc.) avec des taux configurables — 661k téléchargements (plugin GatherManager). Voir permissions et options sur umod.org/plugins/GatherManager",
+    "Description": "Augmente les quantités récoltées (bois, minerai, etc.) avec des taux configurables — 661k téléchargements (plugin GatherManager) → https://umod.org/plugins/GatherManager",
     "FieldName": "UmodP_GatherManager",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -239,7 +239,7 @@
   },
   {
     "DisplayName": "P02 - Stack Size Controller",
-    "Description": "Personnalise la taille maximale des stacks de chaque objet — 588k téléchargements (plugin StackSizeController). Voir permissions et options sur umod.org/plugins/StackSizeController",
+    "Description": "Personnalise la taille maximale des stacks de chaque objet — 588k téléchargements (plugin StackSizeController) → https://umod.org/plugins/StackSizeController",
     "FieldName": "UmodP_StackSizeController",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -255,7 +255,7 @@
   },
   {
     "DisplayName": "P03 - Vanish",
-    "Description": "Invisibilité totale pour les admins (permission vanish.allow) — 501k téléchargements (plugin Vanish). Voir permissions et options sur umod.org/plugins/Vanish",
+    "Description": "Invisibilité totale pour les admins (permission vanish.allow) — 501k téléchargements (plugin Vanish) → https://umod.org/plugins/Vanish",
     "FieldName": "UmodP_Vanish",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -271,7 +271,7 @@
   },
   {
     "DisplayName": "P04 - Rust Kits",
-    "Description": "Kits d'objets, kits automatiques au spawn, délais de réutilisation — 481k téléchargements (plugin Kits). Voir permissions et options sur umod.org/plugins/Kits",
+    "Description": "Kits d'objets, kits automatiques au spawn, délais de réutilisation — 481k téléchargements (plugin Kits) → https://umod.org/plugins/Kits",
     "FieldName": "UmodP_Kits",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -287,7 +287,7 @@
   },
   {
     "DisplayName": "P05 - Image Library",
-    "Description": "Bibliothèque d'images — API requise par de nombreux plugins à interface — 466k téléchargements (plugin ImageLibrary). Voir permissions et options sur umod.org/plugins/ImageLibrary",
+    "Description": "Bibliothèque d'images — API requise par de nombreux plugins à interface — 466k téléchargements (plugin ImageLibrary) → https://umod.org/plugins/ImageLibrary",
     "FieldName": "UmodP_ImageLibrary",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -303,7 +303,7 @@
   },
   {
     "DisplayName": "P06 - NTeleportation",
-    "Description": "Téléportations /home, /tpr, /town pour joueurs et admins — 430k téléchargements (plugin NTeleportation). Voir permissions et options sur umod.org/plugins/NTeleportation",
+    "Description": "Téléportations /home, /tpr, /town pour joueurs et admins — 430k téléchargements (plugin NTeleportation) → https://umod.org/plugins/NTeleportation",
     "FieldName": "UmodP_NTeleportation",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -319,7 +319,7 @@
   },
   {
     "DisplayName": "P07 - Admin Radar",
-    "Description": "Radar admin pour surveiller joueurs et entités (anti-triche) — 411k téléchargements (plugin AdminRadar). Voir permissions et options sur umod.org/plugins/AdminRadar",
+    "Description": "Radar admin pour surveiller joueurs et entités (anti-triche) — 411k téléchargements (plugin AdminRadar) → https://umod.org/plugins/AdminRadar",
     "FieldName": "UmodP_AdminRadar",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -335,7 +335,7 @@
   },
   {
     "DisplayName": "P08 - Remover Tool",
-    "Description": "Outil de suppression de constructions et d'entités — 410k téléchargements (plugin RemoverTool). Voir permissions et options sur umod.org/plugins/RemoverTool",
+    "Description": "Outil de suppression de constructions et d'entités — 410k téléchargements (plugin RemoverTool) → https://umod.org/plugins/RemoverTool",
     "FieldName": "UmodP_RemoverTool",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -351,7 +351,7 @@
   },
   {
     "DisplayName": "P09 - Copy Paste",
-    "Description": "Copier/coller des constructions (sauvegarde et déplacement de bases) — 390k téléchargements (plugin CopyPaste). Voir permissions et options sur umod.org/plugins/CopyPaste",
+    "Description": "Copier/coller des constructions (sauvegarde et déplacement de bases) — 390k téléchargements (plugin CopyPaste) → https://umod.org/plugins/CopyPaste",
     "FieldName": "UmodP_CopyPaste",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -367,7 +367,7 @@
   },
   {
     "DisplayName": "P10 - No Give Notices",
-    "Description": "Masque les annonces de /give dans le chat — 382k téléchargements (plugin NoGiveNotices). Voir permissions et options sur umod.org/plugins/NoGiveNotices",
+    "Description": "Masque les annonces de /give dans le chat — 382k téléchargements (plugin NoGiveNotices) → https://umod.org/plugins/NoGiveNotices",
     "FieldName": "UmodP_NoGiveNotices",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -383,7 +383,7 @@
   },
   {
     "DisplayName": "P11 - Backpacks",
-    "Description": "Sacs à dos donnant de l'inventaire supplémentaire aux joueurs — 335k téléchargements (plugin Backpacks). Voir permissions et options sur umod.org/plugins/Backpacks",
+    "Description": "Sacs à dos donnant de l'inventaire supplémentaire aux joueurs — 335k téléchargements (plugin Backpacks) → https://umod.org/plugins/Backpacks",
     "FieldName": "UmodP_Backpacks",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -399,7 +399,7 @@
   },
   {
     "DisplayName": "P12 - Better Loot",
-    "Description": "Refonte complète du système de loot des caisses — 331k téléchargements (plugin BetterLoot). Voir permissions et options sur umod.org/plugins/BetterLoot",
+    "Description": "Refonte complète du système de loot des caisses — 331k téléchargements (plugin BetterLoot) → https://umod.org/plugins/BetterLoot",
     "FieldName": "UmodP_BetterLoot",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -415,7 +415,7 @@
   },
   {
     "DisplayName": "P13 - Quick Smelt",
-    "Description": "Accélère la fonte dans les fours — 306k téléchargements (plugin QuickSmelt). Voir permissions et options sur umod.org/plugins/QuickSmelt",
+    "Description": "Accélère la fonte dans les fours — 306k téléchargements (plugin QuickSmelt) → https://umod.org/plugins/QuickSmelt",
     "FieldName": "UmodP_QuickSmelt",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -431,7 +431,7 @@
   },
   {
     "DisplayName": "P14 - Furnace Splitter",
-    "Description": "Répartit automatiquement le minerai en stacks égaux dans les fours — 278k téléchargements (plugin FurnaceSplitter). Voir permissions et options sur umod.org/plugins/FurnaceSplitter",
+    "Description": "Répartit automatiquement le minerai en stacks égaux dans les fours — 278k téléchargements (plugin FurnaceSplitter) → https://umod.org/plugins/FurnaceSplitter",
     "FieldName": "UmodP_FurnaceSplitter",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -447,7 +447,7 @@
   },
   {
     "DisplayName": "P15 - True PVE",
-    "Description": "Serveur PVE : protège les joueurs et leurs constructions du PVP — 251k téléchargements (plugin TruePVE). Voir permissions et options sur umod.org/plugins/TruePVE",
+    "Description": "Serveur PVE : protège les joueurs et leurs constructions du PVP — 251k téléchargements (plugin TruePVE) → https://umod.org/plugins/TruePVE",
     "FieldName": "UmodP_TruePVE",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -463,7 +463,7 @@
   },
   {
     "DisplayName": "P16 - Instant Craft",
-    "Description": "Craft instantané des objets — 235k téléchargements (plugin InstantCraft). Voir permissions et options sur umod.org/plugins/InstantCraft",
+    "Description": "Craft instantané des objets — 235k téléchargements (plugin InstantCraft) → https://umod.org/plugins/InstantCraft",
     "FieldName": "UmodP_InstantCraft",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -479,7 +479,7 @@
   },
   {
     "DisplayName": "P17 - Raidable Bases",
-    "Description": "Bases raidables automatiques avec PNJ (événement PVE très populaire) — 217k téléchargements (plugin RaidableBases). Voir permissions et options sur umod.org/plugins/RaidableBases",
+    "Description": "Bases raidables automatiques avec PNJ (événement PVE très populaire) — 217k téléchargements (plugin RaidableBases) → https://umod.org/plugins/RaidableBases",
     "FieldName": "UmodP_RaidableBases",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -495,7 +495,7 @@
   },
   {
     "DisplayName": "P18 - Death Notes",
-    "Description": "Annonce les morts dans le chat avec les détails (arme, distance...) — 216k téléchargements (plugin DeathNotes). Voir permissions et options sur umod.org/plugins/DeathNotes",
+    "Description": "Annonce les morts dans le chat avec les détails (arme, distance...) — 216k téléchargements (plugin DeathNotes) → https://umod.org/plugins/DeathNotes",
     "FieldName": "UmodP_DeathNotes",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -511,7 +511,7 @@
   },
   {
     "DisplayName": "P19 - Admin Panel",
-    "Description": "Petit panneau GUI de commandes rapides pour les admins — 213k téléchargements (plugin AdminPanel). Voir permissions et options sur umod.org/plugins/AdminPanel",
+    "Description": "Petit panneau GUI de commandes rapides pour les admins — 213k téléchargements (plugin AdminPanel) → https://umod.org/plugins/AdminPanel",
     "FieldName": "UmodP_AdminPanel",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -527,7 +527,7 @@
   },
   {
     "DisplayName": "P20 - Zone Manager",
-    "Description": "Création de zones avec règles personnalisées (PVP, build, spawn...) — 206k téléchargements (plugin ZoneManager). Voir permissions et options sur umod.org/plugins/ZoneManager",
+    "Description": "Création de zones avec règles personnalisées (PVP, build, spawn...) — 206k téléchargements (plugin ZoneManager) → https://umod.org/plugins/ZoneManager",
     "FieldName": "UmodP_ZoneManager",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -543,7 +543,7 @@
   },
   {
     "DisplayName": "P21 - Info Panel",
-    "Description": "Panneau d'infos à l'écran : horloge, joueurs en ligne, messages — 206k téléchargements (plugin InfoPanel). Voir permissions et options sur umod.org/plugins/InfoPanel",
+    "Description": "Panneau d'infos à l'écran : horloge, joueurs en ligne, messages — 206k téléchargements (plugin InfoPanel) → https://umod.org/plugins/InfoPanel",
     "FieldName": "UmodP_InfoPanel",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -559,7 +559,7 @@
   },
   {
     "DisplayName": "P22 - Sign Artist",
-    "Description": "Charge des images depuis une URL sur les pancartes — 205k téléchargements (plugin SignArtist). Voir permissions et options sur umod.org/plugins/SignArtist",
+    "Description": "Charge des images depuis une URL sur les pancartes — 205k téléchargements (plugin SignArtist) → https://umod.org/plugins/SignArtist",
     "FieldName": "UmodP_SignArtist",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -575,7 +575,7 @@
   },
   {
     "DisplayName": "P23 - Player Administration",
-    "Description": "Interface GUI complète de modération des joueurs — 196k téléchargements (plugin PlayerAdministration). Voir permissions et options sur umod.org/plugins/PlayerAdministration",
+    "Description": "Interface GUI complète de modération des joueurs — 196k téléchargements (plugin PlayerAdministration) → https://umod.org/plugins/PlayerAdministration",
     "FieldName": "UmodP_PlayerAdministration",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -591,7 +591,7 @@
   },
   {
     "DisplayName": "P24 - Time Of Day",
-    "Description": "Modifie la durée du jour et de la nuit — 194k téléchargements (plugin TimeOfDay). Voir permissions et options sur umod.org/plugins/TimeOfDay",
+    "Description": "Modifie la durée du jour et de la nuit — 194k téléchargements (plugin TimeOfDay) → https://umod.org/plugins/TimeOfDay",
     "FieldName": "UmodP_TimeOfDay",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -607,7 +607,7 @@
   },
   {
     "DisplayName": "P25 - Skins",
-    "Description": "Change facilement les skins Workshop des objets — 179k téléchargements (plugin Skins). Voir permissions et options sur umod.org/plugins/Skins",
+    "Description": "Change facilement les skins Workshop des objets — 179k téléchargements (plugin Skins) → https://umod.org/plugins/Skins",
     "FieldName": "UmodP_Skins",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -623,7 +623,7 @@
   },
   {
     "DisplayName": "P26 - ZLevels Remastered",
-    "Description": "Système de niveaux : minage, bûcheronnage, craft... avec bonus — 177k téléchargements (plugin ZLevelsRemastered). Voir permissions et options sur umod.org/plugins/ZLevelsRemastered",
+    "Description": "Système de niveaux : minage, bûcheronnage, craft... avec bonus — 177k téléchargements (plugin ZLevelsRemastered) → https://umod.org/plugins/ZLevelsRemastered",
     "FieldName": "UmodP_ZLevelsRemastered",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -639,7 +639,7 @@
   },
   {
     "DisplayName": "P27 - Crafting Controller",
-    "Description": "Contrôle les temps de craft et les objets craftables — 170k téléchargements (plugin CraftingController). Voir permissions et options sur umod.org/plugins/CraftingController",
+    "Description": "Contrôle les temps de craft et les objets craftables — 170k téléchargements (plugin CraftingController) → https://umod.org/plugins/CraftingController",
     "FieldName": "UmodP_CraftingController",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -655,7 +655,7 @@
   },
   {
     "DisplayName": "P28 - Blueprint Manager",
-    "Description": "Gestion des blueprints (déblocage auto, wipe...) — 155k téléchargements (plugin BlueprintManager). Voir permissions et options sur umod.org/plugins/BlueprintManager",
+    "Description": "Gestion des blueprints (déblocage auto, wipe...) — 155k téléchargements (plugin BlueprintManager) → https://umod.org/plugins/BlueprintManager",
     "FieldName": "UmodP_BlueprintManager",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -671,7 +671,7 @@
   },
   {
     "DisplayName": "P29 - BGrade",
-    "Description": "Améliore automatiquement les blocs au niveau choisi dès la pose — 145k téléchargements (plugin BGrade). Voir permissions et options sur umod.org/plugins/BGrade",
+    "Description": "Améliore automatiquement les blocs au niveau choisi dès la pose — 145k téléchargements (plugin BGrade) → https://umod.org/plugins/BGrade",
     "FieldName": "UmodP_BGrade",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -687,7 +687,7 @@
   },
   {
     "DisplayName": "P30 - Chest Stack Multiplier",
-    "Description": "Stacks plus grands dans les coffres uniquement — 144k téléchargements (plugin ChestStackMultiplier). Voir permissions et options sur umod.org/plugins/ChestStackMultiplier",
+    "Description": "Stacks plus grands dans les coffres uniquement — 144k téléchargements (plugin ChestStackMultiplier) → https://umod.org/plugins/ChestStackMultiplier",
     "FieldName": "UmodP_ChestStackMultiplier",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -703,7 +703,7 @@
   },
   {
     "DisplayName": "P31 - Magic Loot",
-    "Description": "Multiplicateur simple de composants et de loot — 142k téléchargements (plugin MagicLoot). Voir permissions et options sur umod.org/plugins/MagicLoot",
+    "Description": "Multiplicateur simple de composants et de loot — 142k téléchargements (plugin MagicLoot) → https://umod.org/plugins/MagicLoot",
     "FieldName": "UmodP_MagicLoot",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -719,7 +719,7 @@
   },
   {
     "DisplayName": "P32 - Auto Doors",
-    "Description": "Ferme automatiquement les portes derrière les joueurs après X secondes — 138k téléchargements (plugin AutoDoors). Voir permissions et options sur umod.org/plugins/AutoDoors",
+    "Description": "Ferme automatiquement les portes derrière les joueurs après X secondes — 138k téléchargements (plugin AutoDoors) → https://umod.org/plugins/AutoDoors",
     "FieldName": "UmodP_AutoDoors",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -735,7 +735,7 @@
   },
   {
     "DisplayName": "P33 - Building Grades",
-    "Description": "Améliore ou rétrograde un bâtiment entier en une commande — 137k téléchargements (plugin BuildingGrades). Voir permissions et options sur umod.org/plugins/BuildingGrades",
+    "Description": "Améliore ou rétrograde un bâtiment entier en une commande — 137k téléchargements (plugin BuildingGrades) → https://umod.org/plugins/BuildingGrades",
     "FieldName": "UmodP_BuildingGrades",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -751,7 +751,7 @@
   },
   {
     "DisplayName": "P34 - Admin Utilities",
-    "Description": "Utilitaires admin : noclip et autres fonctions pratiques — 130k téléchargements (plugin AdminUtilities). Voir permissions et options sur umod.org/plugins/AdminUtilities",
+    "Description": "Utilitaires admin : noclip et autres fonctions pratiques — 130k téléchargements (plugin AdminUtilities) → https://umod.org/plugins/AdminUtilities",
     "FieldName": "UmodP_AdminUtilities",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -767,7 +767,7 @@
   },
   {
     "DisplayName": "P35 - Godmode",
-    "Description": "Mode invincible pour les admins (permission) — 128k téléchargements (plugin Godmode). Voir permissions et options sur umod.org/plugins/Godmode",
+    "Description": "Mode invincible pour les admins (permission) — 128k téléchargements (plugin Godmode) → https://umod.org/plugins/Godmode",
     "FieldName": "UmodP_Godmode",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -783,7 +783,7 @@
   },
   {
     "DisplayName": "P36 - Vehicle License",
-    "Description": "Achat, spawn et rappel de véhicules : bateau, RHIB, montgolfière... — 123k téléchargements (plugin VehicleLicence). Voir permissions et options sur umod.org/plugins/VehicleLicence",
+    "Description": "Achat, spawn et rappel de véhicules : bateau, RHIB, montgolfière... — 123k téléchargements (plugin VehicleLicence) → https://umod.org/plugins/VehicleLicence",
     "FieldName": "UmodP_VehicleLicence",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -799,7 +799,7 @@
   },
   {
     "DisplayName": "P37 - Welcomer",
-    "Description": "Messages de bienvenue et annonces d'arrivée/départ dans le chat — 117k téléchargements (plugin Welcomer). Voir permissions et options sur umod.org/plugins/Welcomer",
+    "Description": "Messages de bienvenue et annonces d'arrivée/départ dans le chat — 117k téléchargements (plugin Welcomer) → https://umod.org/plugins/Welcomer",
     "FieldName": "UmodP_Welcomer",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -815,7 +815,7 @@
   },
   {
     "DisplayName": "P38 - Server Rewards",
-    "Description": "Points de récompense à gagner et boutique pour les dépenser — 113k téléchargements (plugin ServerRewards). Voir permissions et options sur umod.org/plugins/ServerRewards",
+    "Description": "Points de récompense à gagner et boutique pour les dépenser — 113k téléchargements (plugin ServerRewards) → https://umod.org/plugins/ServerRewards",
     "FieldName": "UmodP_ServerRewards",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -831,7 +831,7 @@
   },
   {
     "DisplayName": "P39 - Building Actions",
-    "Description": "Rotation et démolition des constructions à volonté — 110k téléchargements (plugin BuildingActions). Voir permissions et options sur umod.org/plugins/BuildingActions",
+    "Description": "Rotation et démolition des constructions à volonté — 110k téléchargements (plugin BuildingActions) → https://umod.org/plugins/BuildingActions",
     "FieldName": "UmodP_BuildingActions",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
@@ -847,7 +847,7 @@
   },
   {
     "DisplayName": "P40 - Automated Events",
-    "Description": "Déclenchement automatique des événements (héli, cargo, airdrop...) — 109k téléchargements (plugin AutomatedEvents). Voir permissions et options sur umod.org/plugins/AutomatedEvents",
+    "Description": "Déclenchement automatique des événements (héli, cargo, airdrop...) — 109k téléchargements (plugin AutomatedEvents) → https://umod.org/plugins/AutomatedEvents",
     "FieldName": "UmodP_AutomatedEvents",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
