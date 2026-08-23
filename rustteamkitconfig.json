@@ -207,5 +207,18 @@
       "True": "true",
       "False": "false"
     }
+  },
+  {
+    "DisplayName": "41 - Plugins uMod (noms separes par des virgules)",
+    "Description": "Plugins telecharges depuis umod.org et mis a jour automatiquement a chaque demarrage (necessite Oxide coche). Noms exacts en PascalCase, ex. Kits,Economics,AdminRadar,Backpacks. Un plugin retire de la liste reste sur le disque : le supprimer dans oxide/plugins/ via le File Manager. Configs des plugins dans oxide/config/.",
+    "FieldName": "UmodPlugins",
+    "InputType": "text",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Mods",
+    "ParamFieldName": "UmodPlugins",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "",
+    "Placeholder": "Kits,Economics,AdminRadar",
+    "Keywords": "umod oxide plugins mods"
   }
 ]

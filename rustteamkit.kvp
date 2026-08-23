@@ -15,8 +15,8 @@ Meta.DockerRequired=False
 Meta.ContainerPolicy=Supported
 Meta.ConfigReleaseState=Beta
 Meta.NoCommercialUsage=False
-Meta.ConfigVersion=2
-Meta.ReleaseNotes=v2 : les champs optionnels vides (map custom, image) ne sont plus passes au serveur (bug convar vide = "1").
+Meta.ConfigVersion=3
+Meta.ReleaseNotes=v3 : champ Plugins uMod - telechargement et mise a jour automatiques depuis umod.org a chaque demarrage.
 Meta.BreakingReleaseNotes=
 Meta.AppConfigId=36b0971a-67f7-4e19-86cc-731858e5a6c6
 Meta.ImportableExtensions=[]
@@ -60,7 +60,7 @@ App.AdminMethod=STDIO
 
 App.UpdateSources=@IncludeJson[rustteamkitupdates.json]
 
-App.PreStartStages=[{"UpdateStageName": "Application des admins (users.cfg)", "UpdateSourcePlatform": "Linux", "UpdateSource": "Executable", "UpdateSourceData": "/bin/bash", "UpdateSourceArgs": "-c \"mkdir -p {{$FullBaseDir}}server/{{ServerIdentity}}/cfg && ( echo '{{OwnerIds}}' | tr ',' '\\n' | sed -e 's/[[:space:]]//g' -e '/^$/d' -e 's/^/ownerid /' ; echo '{{ModeratorIds}}' | tr ',' '\\n' | sed -e 's/[[:space:]]//g' -e '/^$/d' -e 's/^/moderatorid /' ) > {{$FullBaseDir}}server/{{ServerIdentity}}/cfg/users.cfg\"", "SkipOnFailure": true}]
+App.PreStartStages=[{"UpdateStageName": "Application des admins (users.cfg)", "UpdateSourcePlatform": "Linux", "UpdateSource": "Executable", "UpdateSourceData": "/bin/bash", "UpdateSourceArgs": "-c \"mkdir -p {{$FullBaseDir}}server/{{ServerIdentity}}/cfg && ( echo '{{OwnerIds}}' | tr ',' '\\n' | sed -e 's/[[:space:]]//g' -e '/^$/d' -e 's/^/ownerid /' ; echo '{{ModeratorIds}}' | tr ',' '\\n' | sed -e 's/[[:space:]]//g' -e '/^$/d' -e 's/^/moderatorid /' ) > {{$FullBaseDir}}server/{{ServerIdentity}}/cfg/users.cfg\"", "SkipOnFailure": true}, {"UpdateStageName": "Plugins uMod (téléchargement/mise à jour)", "UpdateSourcePlatform": "Linux", "UpdateSource": "Executable", "UpdateSourceData": "/bin/bash", "UpdateSourceArgs": "-c \"mkdir -p {{$FullBaseDir}}oxide/plugins && cd {{$FullBaseDir}}oxide/plugins && echo '{{UmodPlugins}}' | tr ',' '\n' | while read p; do p=$(echo $p | tr -d '[:space:]'); [ -z \\\"$p\\\" ] && continue; curl -sfL \\\"https://umod.org/plugins/$p.cs\\\" -o \\\"$p.cs.tmp\\\" && mv \\\"$p.cs.tmp\\\" \\\"$p.cs\\\" && echo \\\"[uMod] $p telecharge\\\" || echo \\\"[uMod] ECHEC: $p (nom exact ?)\\\"; done\"", "UpdateSourceConditionSetting": "InstallOxide", "UpdateSourceConditionValue": "true", "SkipOnFailure": true}]
 App.UserActions=[]
 App.ForceUpdate=False
 App.Compatibility=None
