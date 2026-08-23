@@ -69,8 +69,8 @@
     "InputType": "text",
     "Category": "Rust TeamKit",
     "Subcategory": "Serveur",
-    "ParamFieldName": "HeaderImage",
-    "IncludeInCommandLine": false,
+    "ParamFieldName": "server.headerimage",
+    "IncludeInCommandLine": true,
     "DefaultValue": "",
     "Keywords": "rust headerimage",
     "SkipIfEmpty": true
@@ -134,8 +134,8 @@
     "InputType": "text",
     "Category": "Rust TeamKit",
     "Subcategory": "Monde",
-    "ParamFieldName": "LevelUrl",
-    "IncludeInCommandLine": false,
+    "ParamFieldName": "server.levelurl",
+    "IncludeInCommandLine": true,
     "DefaultValue": "",
     "Keywords": "rust levelurl",
     "SkipIfEmpty": true
