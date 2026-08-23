@@ -1,0 +1,12 @@
+{
+  "id": "bf9f13ff-c8ea-4056-8a10-7c1ad63c9a14",
+  "authors": [
+    "Hydrocut",
+    "TeamKit"
+  ],
+  "origin": "https://github.com/hydrocut/AMPTemplates-Rust.git",
+  "url": "https://github.com/hydrocut/AMPTemplates-Rust",
+  "imagefile": "",
+  "prefix": "TeamKitRust",
+  "repotype": "AppTemplates"
+}

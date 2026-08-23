@@ -1,0 +1,30 @@
+[
+  {
+    "UpdateStageName": "SteamCMD Download",
+    "UpdateSourcePlatform": "Linux",
+    "UpdateSource": "SteamCMD",
+    "UpdateSourceData": "258550",
+    "SkipOnFailure": false
+  },
+  {
+    "UpdateStageName": "Oxide / uMod (si activé)",
+    "UpdateSourcePlatform": "Linux",
+    "UpdateSource": "FetchURL",
+    "UpdateSourceData": "https://github.com/OxideMod/Oxide.Rust/releases/latest/download/Oxide.Rust-linux.zip",
+    "UpdateSourceTarget": "{{$FullBaseDir}}",
+    "UnzipUpdateSource": true,
+    "OverwriteExistingFiles": true,
+    "DeleteAfterExtract": true,
+    "UpdateSourceConditionSetting": "InstallOxide",
+    "UpdateSourceConditionValue": "true",
+    "SkipOnFailure": false
+  },
+  {
+    "UpdateStageName": "Dossier de configuration serveur",
+    "UpdateSourcePlatform": "Linux",
+    "UpdateSource": "CreateDirectory",
+    "UpdateSourceArgs": "{{$FullBaseDir}}server/{{ServerIdentity}}/cfg",
+    "OverwriteExistingFiles": false,
+    "SkipOnFailure": false
+  }
+]
