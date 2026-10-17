@@ -1,7 +1,7 @@
 [
   {
     "DisplayName": "01 - Identité du serveur",
-    "Description": "Nom du dossier de sauvegarde (server/<identité>). Un nom = une map/sauvegarde. Changer d'identité = repartir de zéro.",
+    "Description": "Nom du dossier de sauvegarde (server/<identité>). Un nom = un monde. Changer d'identité = repartir de zéro (l'ancien dossier reste sur le disque). Lettres sans accent, chiffres, - et _ seulement.",
     "FieldName": "ServerIdentity",
     "InputType": "text",
     "Category": "Rust TeamKit",
@@ -15,7 +15,7 @@
   },
   {
     "DisplayName": "02 - Arguments personnalisés",
-    "Description": "Arguments supplémentaires ajoutés à la fin de la ligne de commande (+convar valeur ...). À laisser vide sauf besoin.",
+    "Description": "Arguments ajoutés à la fin de la ligne de commande de Rust (+convar valeur ...). À laisser vide sauf besoin. Ne mets JAMAIS le mot de passe RCON ici.",
     "FieldName": "CustomServerArgs",
     "InputType": "text",
     "Category": "Rust TeamKit",
@@ -28,31 +28,31 @@
   },
   {
     "DisplayName": "10 - Nom du serveur",
-    "Description": "Nom affiché dans la liste des serveurs Rust (+server.hostname).",
+    "Description": "Nom dans la liste des serveurs Rust (+server.hostname). {wipe} est remplacé par le rythme choisi : « Wipe jeudi », « Wipe 1 jeudi sur 2 », « Wipe mensuel » ou « Wipe lundi + jeudi ».",
     "FieldName": "Hostname",
     "InputType": "text",
     "Category": "Rust TeamKit",
     "Subcategory": "Serveur",
     "ParamFieldName": "Hostname",
     "IncludeInCommandLine": false,
-    "DefaultValue": "TeamKit.fr | Rust FR | Wipe hebdo",
+    "DefaultValue": "[FR] TeamKit · Couronne de Rouille | 2x | Max 4 | {wipe}",
     "Keywords": "rust hostname"
   },
   {
     "DisplayName": "11 - Description",
-    "Description": "Description affichée sur la page du serveur (+server.description). \\n pour un retour à la ligne.",
+    "Description": "Texte de la page du serveur dans le jeu (+server.description). \\n = retour à la ligne. Vide = pas de description.",
     "FieldName": "ServerDescription",
     "InputType": "text",
     "Category": "Rust TeamKit",
     "Subcategory": "Serveur",
     "ParamFieldName": "ServerDescription",
     "IncludeInCommandLine": false,
-    "DefaultValue": "Serveur Rust hébergé gratuitement par TeamKit.fr — rejoins la communauté !",
+    "DefaultValue": "Serveur PvP francophone de TeamKit.fr. 100 % gratuit, aucune boutique, aucun avantage à acheter.\\n2x récolte · fabrication rapide · équipes de 4 au plus\\nWipe chaque jeudi à 20 h · plans au wipe forcé du mois\\nClassement par wipe : Tueur, Raider, Survivant, Fermier, Pêcheur…\\nRègles : pas de triche, pas d'alliance, pas de stream sniping, respect.\\nDiscord, règles et classement : teamkit.fr\\nFrench-speaking community PvP server. 2x, max 4, weekly wipe.\\nServeur communautaire non officiel, non affilié à Facepunch Studios.",
     "Keywords": "rust serverdescription"
   },
   {
     "DisplayName": "12 - Site web",
-    "Description": "URL du bouton « Visiter le site » (+server.url).",
+    "Description": "Adresse du bouton « Visiter le site » (+server.url). Vide = pas de bouton.",
     "FieldName": "ServerUrl",
     "InputType": "text",
     "Category": "Rust TeamKit",
@@ -64,111 +64,284 @@
   },
   {
     "DisplayName": "13 - Image d'en-tête",
-    "Description": "URL d'une image 512x256 affichée sur la page du serveur (+server.headerimage). Vide = aucune.",
+    "Description": "Adresse d'une image 1024 × 512 (format 2:1) affichée sur la page du serveur (+server.headerimage). Vide = aucune.",
     "FieldName": "HeaderImage",
     "InputType": "text",
     "Category": "Rust TeamKit",
     "Subcategory": "Serveur",
-    "ParamFieldName": "server.headerimage",
-    "IncludeInCommandLine": true,
+    "ParamFieldName": "HeaderImage",
+    "IncludeInCommandLine": false,
     "DefaultValue": "",
-    "Keywords": "rust headerimage",
-    "SkipIfEmpty": true
+    "Keywords": "rust headerimage"
   },
   {
-    "DisplayName": "14 - Joueurs max",
-    "Description": "Nombre maximum de joueurs (+server.maxplayers). Synchronisé avec AMP.",
+    "DisplayName": "14 - Logo",
+    "Description": "Adresse d'une image carrée 256 × 256, affichée en rond dans la liste des serveurs (+server.logoimage). Vide = aucun.",
+    "FieldName": "LogoImage",
+    "InputType": "text",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Serveur",
+    "ParamFieldName": "LogoImage",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "",
+    "Keywords": "rust logoimage"
+  },
+  {
+    "DisplayName": "15 - Joueurs max",
+    "Description": "Nombre maximum de joueurs (+server.maxplayers). Synchronisé avec AMP. Prévoir 14 à 18 Go de mémoire pour 150 joueurs.",
     "FieldName": "$MaxUsers",
     "InputType": "number",
     "Category": "Rust TeamKit",
     "Subcategory": "Serveur",
     "ParamFieldName": "$MaxUsers",
     "IncludeInCommandLine": false,
-    "DefaultValue": "100",
-    "Keywords": "rust $maxusers",
+    "DefaultValue": "150",
+    "Keywords": "rust $maxusers places",
     "MinValue": "1",
     "MaxValue": "500"
   },
   {
-    "DisplayName": "15 - Tags",
-    "Description": "Tags de la liste des serveurs, séparés par des virgules (+server.tags) : weekly/biweekly/monthly, vanilla/modded, EU...",
+    "DisplayName": "16 - Tags en plus",
+    "Description": "Tags ajoutés à celui du rythme du wipe (weekly, biweekly ou monthly, mis tout seul), séparés par des virgules (+server.tags). Région : EU. Pas de vanilla sur un serveur 2x. 4 tags au plus en tout.",
     "FieldName": "ServerTags",
     "InputType": "text",
     "Category": "Rust TeamKit",
     "Subcategory": "Serveur",
     "ParamFieldName": "ServerTags",
     "IncludeInCommandLine": false,
-    "DefaultValue": "weekly,vanilla,EU",
+    "DefaultValue": "EU",
     "Keywords": "rust servertags"
   },
   {
-    "DisplayName": "20 - Taille de la map",
-    "Description": "Taille de la map procédurale en mètres (+server.worldsize), 1000 à 6000. 3500 = équilibré.",
+    "DisplayName": "17 - Taille d'équipe max",
+    "Description": "Nombre maximum de joueurs dans une équipe du jeu (+relationshipmanager.maxteamsize). La 5e invitation est refusée par le serveur avec 4.",
+    "FieldName": "TailleEquipe",
+    "InputType": "number",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Serveur",
+    "ParamFieldName": "TailleEquipe",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "4",
+    "Keywords": "rust tailleequipe",
+    "MinValue": "1",
+    "MaxValue": "32"
+  },
+  {
+    "DisplayName": "18 - Adresse publique (Rust+)",
+    "Description": "Adresse IP publique de la machine, pour l'appli Rust+ (+app.publicip). Obligatoire en réseau ponté (conteneur), sinon le jumelage échoue. Pour TeamKit : 51.254.47.151. Vide = Rust la devine.",
+    "FieldName": "PublicIp",
+    "InputType": "text",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Serveur",
+    "ParamFieldName": "PublicIp",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "",
+    "Keywords": "rust publicip",
+    "Placeholder": "51.254.47.151"
+  },
+  {
+    "DisplayName": "20 - Taille de la carte",
+    "Description": "Taille de la carte procédurale en mètres (+server.worldsize), 1000 à 6000. 4000 pour 150 joueurs, 3500 si la population moyenne passe sous 80.",
     "FieldName": "WorldSize",
     "InputType": "number",
     "Category": "Rust TeamKit",
     "Subcategory": "Monde",
     "ParamFieldName": "WorldSize",
     "IncludeInCommandLine": false,
-    "DefaultValue": "3500",
+    "DefaultValue": "4000",
     "Keywords": "rust worldsize",
     "MinValue": "1000",
     "MaxValue": "6000"
   },
   {
-    "DisplayName": "21 - Seed de la map",
-    "Description": "Graine de génération (+server.seed). Changer la seed au wipe = nouvelle map.",
+    "DisplayName": "21 - Graine de la carte",
+    "Description": "« auto » = graine gardée pendant le wipe, nouvelle graine tirée à chaque wipe (dans la liste ci-dessous si elle est remplie). Un nombre = graine fixe (+server.seed).",
     "FieldName": "WorldSeed",
-    "InputType": "number",
+    "InputType": "text",
     "Category": "Rust TeamKit",
     "Subcategory": "Monde",
     "ParamFieldName": "WorldSeed",
     "IncludeInCommandLine": false,
-    "DefaultValue": "1337",
-    "Keywords": "rust worldseed"
+    "DefaultValue": "auto",
+    "Keywords": "rust worldseed",
+    "Placeholder": "auto"
   },
   {
-    "DisplayName": "22 - URL map custom",
-    "Description": "URL d'une map custom (.map) (+server.levelurl). Vide = map procédurale.",
+    "DisplayName": "22 - Graines vérifiées (auto)",
+    "Description": "Graines déjà essayées et jugées bonnes, séparées par des virgules. En « auto », le wipe en tire une au hasard (jamais la même que la carte qui s'en va). Vide = graine au hasard.",
+    "FieldName": "GrainesListe",
+    "InputType": "text",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Monde",
+    "ParamFieldName": "GrainesListe",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "",
+    "Keywords": "rust grainesliste"
+  },
+  {
+    "DisplayName": "23 - URL carte perso",
+    "Description": "Adresse d'une carte perso (.map) (+server.levelurl). Vide = carte procédurale.",
     "FieldName": "LevelUrl",
     "InputType": "text",
     "Category": "Rust TeamKit",
     "Subcategory": "Monde",
-    "ParamFieldName": "server.levelurl",
-    "IncludeInCommandLine": true,
+    "ParamFieldName": "LevelUrl",
+    "IncludeInCommandLine": false,
     "DefaultValue": "",
-    "Keywords": "rust levelurl",
-    "SkipIfEmpty": true
+    "Keywords": "rust levelurl"
   },
   {
-    "DisplayName": "23 - Sauvegarde auto (secondes)",
-    "Description": "Intervalle de sauvegarde automatique (+server.saveinterval).",
+    "DisplayName": "24 - Sauvegarde auto (secondes)",
+    "Description": "Intervalle de sauvegarde automatique du monde (+server.saveinterval). 300 = 5 minutes de jeu perdues au pire.",
     "FieldName": "SaveInterval",
     "InputType": "number",
     "Category": "Rust TeamKit",
     "Subcategory": "Monde",
     "ParamFieldName": "SaveInterval",
     "IncludeInCommandLine": false,
-    "DefaultValue": "600",
+    "DefaultValue": "300",
     "Keywords": "rust saveinterval",
-    "MinValue": "60"
+    "MinValue": "60",
+    "MaxValue": "3600"
   },
   {
-    "DisplayName": "30 - Mot de passe RCON",
-    "Description": "Mot de passe WebRCON (+rcon.password). OBLIGATOIRE — utilisé par RustAdmin/webrcon.io pour administrer le serveur.",
+    "DisplayName": "25 - Tickrate",
+    "Description": "Fréquence de calcul du réseau du serveur (+server.tickrate). 30 pour un serveur PvP. Plus haut = plus de processeur.",
+    "FieldName": "Tickrate",
+    "InputType": "number",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Monde",
+    "ParamFieldName": "Tickrate",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "30",
+    "Keywords": "rust tickrate",
+    "MinValue": "10",
+    "MaxValue": "60"
+  },
+  {
+    "DisplayName": "26 - Limite de FPS du serveur",
+    "Description": "Images par seconde maximum du serveur (+fps.limit). 60 conseillé.",
+    "FieldName": "FpsLimit",
+    "InputType": "number",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Monde",
+    "ParamFieldName": "FpsLimit",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "60",
+    "Keywords": "rust fpslimit",
+    "MinValue": "30",
+    "MaxValue": "256"
+  },
+  {
+    "DisplayName": "27 - Journal de combat",
+    "Description": "Nombre de lignes gardées dans le journal de combat de chaque joueur (+server.combatlogsize). 100 pour les preuves.",
+    "FieldName": "CombatLogSize",
+    "InputType": "number",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Monde",
+    "ParamFieldName": "CombatLogSize",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "100",
+    "Keywords": "rust combatlogsize",
+    "MinValue": "30",
+    "MaxValue": "1000"
+  },
+  {
+    "DisplayName": "30 - Wipe au prochain démarrage",
+    "Description": "Wipe fait UNE fois, au démarrage suivant : archive datée de server/<identité>, puis carte effacée (et plans si « carte + plans »). AMP ne sait pas remettre ce réglage sur « non » tout seul : le serveur s'en souvient et ne le refait pas. Remets-le sur « non » après le wipe pour pouvoir t'en resservir.",
+    "FieldName": "WipeProchain",
+    "InputType": "enum",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Wipe",
+    "ParamFieldName": "WipeProchain",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "non",
+    "Keywords": "rust wipeprochain",
+    "EnumValues": {
+      "non": "Non",
+      "carte": "Carte",
+      "carte_plans": "Carte + plans"
+    }
+  },
+  {
+    "DisplayName": "31 - Wipe automatique",
+    "Description": "Wipe fait tout seul au premier démarrage après l'heure du wipe (dans les 6 h). Le planificateur d'AMP redémarre le serveur à l'heure : voir le README. « Plans au wipe forcé » efface les plans le 1er jeudi du mois.",
+    "FieldName": "WipeAuto",
+    "InputType": "enum",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Wipe",
+    "ParamFieldName": "WipeAuto",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "non",
+    "Keywords": "rust wipeauto",
+    "EnumValues": {
+      "non": "Non",
+      "carte": "Carte",
+      "carte_plans_force": "Carte, et plans au wipe forcé du mois",
+      "carte_plans": "Carte + plans à chaque wipe"
+    }
+  },
+  {
+    "DisplayName": "32 - Rythme du wipe",
+    "Description": "Jours du wipe. Règle aussi le tag du serveur (weekly, biweekly, monthly) et la fin du nom ({wipe}). Toutes les 2 semaines = 1er et 3e jeudi du mois.",
+    "FieldName": "WipeRythme",
+    "InputType": "enum",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Wipe",
+    "ParamFieldName": "WipeRythme",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "hebdo",
+    "Keywords": "rust wiperythme",
+    "EnumValues": {
+      "hebdo": "Chaque semaine (jeudi)",
+      "2semaines": "Toutes les 2 semaines (jeudi)",
+      "mois": "Chaque mois (1er jeudi)",
+      "2parsemaine": "2 fois par semaine (lundi et jeudi)"
+    }
+  },
+  {
+    "DisplayName": "33 - Heure du wipe (Paris)",
+    "Description": "Heure de Paris du wipe, ex. 20:00. Facepunch publie sa mise à jour du wipe forcé à 20 h en hiver, 21 h en été.",
+    "FieldName": "WipeHeure",
+    "InputType": "text",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Wipe",
+    "ParamFieldName": "WipeHeure",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "20:00",
+    "Keywords": "rust wipeheure",
+    "Placeholder": "20:00"
+  },
+  {
+    "DisplayName": "34 - Archives gardées",
+    "Description": "Nombre d'archives de wipe gardées dans rust/archives-wipe/ (les plus vieilles sont supprimées). Environ 1 Go de disque pour 4 archives d'une carte 4000.",
+    "FieldName": "ArchivesGardees",
+    "InputType": "number",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Wipe",
+    "ParamFieldName": "ArchivesGardees",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "4",
+    "Keywords": "rust archivesgardees",
+    "MinValue": "1",
+    "MaxValue": "50"
+  },
+  {
+    "DisplayName": "40 - Mot de passe RCON",
+    "Description": "OBLIGATOIRE : le serveur refuse de démarrer sans lui. 12 caractères ou plus : lettres sans accent, chiffres, point, tiret. Il passe par un fichier, plus par la ligne de commande d'AMP. Le port RCON (28017) doit rester FERMÉ au public : le bot et RustAdmin passent par la machine elle-même (tunnel SSH).",
     "FieldName": "RconPassword",
     "InputType": "password",
     "Category": "Rust TeamKit",
     "Subcategory": "Admins & RCON",
     "ParamFieldName": "RconPassword",
     "IncludeInCommandLine": false,
-    "DefaultValue": "changemoi",
+    "DefaultValue": "",
     "Keywords": "rust rconpassword",
     "Required": true
   },
   {
-    "DisplayName": "31 - Propriétaires (ownerid)",
-    "Description": "SteamID64 des admins niveau owner, séparés par des virgules (ex. 76561197994679825,76561199441805975). Appliqués à chaque démarrage dans users.cfg.",
+    "DisplayName": "41 - Propriétaires (ownerid)",
+    "Description": "SteamID64 des admins de niveau owner, séparés par des virgules. Réappliqués à chaque démarrage (users.cfg).",
     "FieldName": "OwnerIds",
     "InputType": "text",
     "Category": "Rust TeamKit",
@@ -180,8 +353,8 @@
     "Placeholder": "76561197994679825,76561198000000000"
   },
   {
-    "DisplayName": "32 - Modérateurs (moderatorid)",
-    "Description": "SteamID64 des modérateurs, séparés par des virgules. Appliqués à chaque démarrage.",
+    "DisplayName": "42 - Modérateurs (moderatorid)",
+    "Description": "SteamID64 des modérateurs, séparés par des virgules. Réappliqués à chaque démarrage.",
     "FieldName": "ModeratorIds",
     "InputType": "text",
     "Category": "Rust TeamKit",
@@ -193,15 +366,15 @@
     "Placeholder": "76561198000000000"
   },
   {
-    "DisplayName": "40 - Installer Oxide / uMod",
-    "Description": "Télécharge et installe automatiquement la dernière version d'Oxide (uMod) à chaque Update — nécessaire pour les plugins uMod (déposés ensuite dans oxide/plugins/). Après une maj du jeu, refaire Update pour re-patcher Oxide.",
+    "DisplayName": "50 - Installer Oxide / uMod",
+    "Description": "Oxide est réinstallé à chaque Update (la mise à jour du jeu l'efface) et au démarrage s'il manque. Nécessaire pour tous les plugins.",
     "FieldName": "InstallOxide",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
     "Subcategory": "Mods",
     "ParamFieldName": "InstallOxide",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
     "Keywords": "rust installoxide",
     "EnumValues": {
       "True": "true",
@@ -209,8 +382,24 @@
     }
   },
   {
-    "DisplayName": "41 - Plugins uMod (noms separes par des virgules)",
-    "Description": "Plugins téléchargés depuis umod.org et mis à jour automatiquement à chaque démarrage (nécessite Oxide coché). Noms exacts en PascalCase, ex. Kits,Economics,Welcomer. Catalogue complet : https://umod.org/plugins — un plugin retiré de la liste reste sur le disque (le supprimer dans oxide/plugins/). Configs dans oxide/config/.",
+    "DisplayName": "51 - Mettre à jour les plugins au démarrage",
+    "Description": "Oui : les plugins cochés sont retéléchargés depuis umod.org à chaque démarrage. Non (saison figée) : ils restent tels quels, seuls les manquants sont téléchargés. Oxide, lui, suit le jeu : pendant une saison, ne clique sur Update qu'au wipe.",
+    "FieldName": "MajPluginsDemarrage",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Mods",
+    "ParamFieldName": "MajPluginsDemarrage",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "true",
+    "Keywords": "rust majpluginsdemarrage",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "52 - Plugins uMod en plus",
+    "Description": "Autres plugins de umod.org, noms exacts séparés par des virgules (ex. Kits,Economics). Configs dans oxide/config/. Un plugin décoché ci-dessous est mis de côté dans oxide/plugins-desactives/.",
     "FieldName": "UmodPlugins",
     "InputType": "text",
     "Category": "Rust TeamKit",
@@ -218,647 +407,791 @@
     "ParamFieldName": "UmodPlugins",
     "IncludeInCommandLine": false,
     "DefaultValue": "",
-    "Placeholder": "Kits,Economics,AdminRadar",
-    "Keywords": "umod oxide plugins mods"
+    "Keywords": "rust umodplugins",
+    "Placeholder": "Kits,Economics"
   },
   {
-    "DisplayName": "P01 - Gather Manager",
-    "Description": "Augmente les quantités récoltées (bois, minerai, etc.) avec des taux configurables — 661k téléchargements (plugin GatherManager) → https://umod.org/plugins/GatherManager",
-    "FieldName": "UmodP_GatherManager",
+    "DisplayName": "C01 - Clans",
+    "Description": "Clans avec étiquette ; limite de membres à régler sur 4 et alliances à couper dans oxide/config/Clans.json (v0.2.10). (plugin Clans) → https://umod.org/plugins/Clans",
+    "FieldName": "UmodP_Clans",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_GatherManager",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_Clans",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp clans",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin gathermanager"
+    }
   },
   {
-    "DisplayName": "P02 - Stack Size Controller",
-    "Description": "Personnalise la taille maximale des stacks de chaque objet — 588k téléchargements (plugin StackSizeController) → https://umod.org/plugins/StackSizeController",
-    "FieldName": "UmodP_StackSizeController",
+    "DisplayName": "C02 - Better Chat",
+    "Description": "Étiquettes de clan, couleurs et badges dans le chat (v5.2.15). (plugin BetterChat) → https://umod.org/plugins/BetterChat",
+    "FieldName": "UmodP_BetterChat",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_StackSizeController",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_BetterChat",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp betterchat",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin stacksizecontroller"
+    }
   },
   {
-    "DisplayName": "P03 - Vanish",
-    "Description": "Invisibilité totale pour les admins (permission vanish.allow) — 501k téléchargements (plugin Vanish) → https://umod.org/plugins/Vanish",
-    "FieldName": "UmodP_Vanish",
+    "DisplayName": "C03 - No Escape",
+    "Description": "Bloque téléport, retrait de pièces et commandes pendant un raid ou un combat (v2.1.37). (plugin NoEscape) → https://umod.org/plugins/NoEscape",
+    "FieldName": "UmodP_NoEscape",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_Vanish",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_NoEscape",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp noescape",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin vanish"
+    }
   },
   {
-    "DisplayName": "P04 - Rust Kits",
-    "Description": "Kits d'objets, kits automatiques au spawn, délais de réutilisation — 481k téléchargements (plugin Kits) → https://umod.org/plugins/Kits",
-    "FieldName": "UmodP_Kits",
+    "DisplayName": "C04 - Wipe Protection",
+    "Description": "Aucun raid pendant les premières heures du wipe : l'option B du cahier, 3 h (v2.1.7). (plugin WipeProtection) → https://umod.org/plugins/WipeProtection",
+    "FieldName": "UmodP_WipeProtection",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_Kits",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_WipeProtection",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp wipeprotection",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin kits"
+    }
   },
   {
-    "DisplayName": "P05 - Image Library",
-    "Description": "Bibliothèque d'images — API requise par de nombreux plugins à interface — 466k téléchargements (plugin ImageLibrary) → https://umod.org/plugins/ImageLibrary",
-    "FieldName": "UmodP_ImageLibrary",
+    "DisplayName": "C05 - Raid Tracker",
+    "Description": "Le staff voit qui a raidé quoi, avec quelles armes (v2.1.3). (plugin RaidTracker) → https://umod.org/plugins/RaidTracker",
+    "FieldName": "UmodP_RaidTracker",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_ImageLibrary",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_RaidTracker",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp raidtracker",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin imagelibrary"
+    }
   },
   {
-    "DisplayName": "P06 - NTeleportation",
-    "Description": "Téléportations /home, /tpr, /town pour joueurs et admins — 430k téléchargements (plugin NTeleportation) → https://umod.org/plugins/NTeleportation",
-    "FieldName": "UmodP_NTeleportation",
+    "DisplayName": "C06 - Server Armour",
+    "Description": "Anti-triche partagé : comptes bannis ailleurs, VPN, profils Steam suspects (v2.87.1). (plugin ServerArmour) → https://umod.org/plugins/ServerArmour",
+    "FieldName": "UmodP_ServerArmour",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_NTeleportation",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_ServerArmour",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp serverarmour",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin nteleportation"
+    }
   },
   {
-    "DisplayName": "P07 - Admin Radar",
-    "Description": "Radar admin pour surveiller joueurs et entités (anti-triche) — 411k téléchargements (plugin AdminRadar) → https://umod.org/plugins/AdminRadar",
-    "FieldName": "UmodP_AdminRadar",
+    "DisplayName": "C07 - CombatLog Info",
+    "Description": "Journaux de combat de tous les joueurs envoyés en direct à Server Armour, pour repérer la triche (v1.0.20). (plugin CombatLogInfo) → https://umod.org/plugins/CombatLogInfo",
+    "FieldName": "UmodP_CombatLogInfo",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_AdminRadar",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_CombatLogInfo",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp combatloginfo",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin adminradar"
+    }
   },
   {
-    "DisplayName": "P08 - Remover Tool",
-    "Description": "Outil de suppression de constructions et d'entités — 410k téléchargements (plugin RemoverTool) → https://umod.org/plugins/RemoverTool",
-    "FieldName": "UmodP_RemoverTool",
+    "DisplayName": "C08 - Duelist",
+    "Description": "Arène de duel 1 contre 1 et en équipe (v1.4.3). (plugin Duelist) → https://umod.org/plugins/Duelist",
+    "FieldName": "UmodP_Duelist",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_RemoverTool",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_Duelist",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp duelist",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin removertool"
+    }
   },
   {
-    "DisplayName": "P09 - Copy Paste",
-    "Description": "Copier/coller des constructions (sauvegarde et déplacement de bases) — 390k téléchargements (plugin CopyPaste) → https://umod.org/plugins/CopyPaste",
-    "FieldName": "UmodP_CopyPaste",
+    "DisplayName": "C09 - Death Notes",
+    "Description": "Les morts dans le chat : arme, distance, partie du corps (v6.5.8). (plugin DeathNotes) → https://umod.org/plugins/DeathNotes",
+    "FieldName": "UmodP_DeathNotes",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_CopyPaste",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_DeathNotes",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp deathnotes",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin copypaste"
+    }
   },
   {
-    "DisplayName": "P10 - No Give Notices",
-    "Description": "Masque les annonces de /give dans le chat — 382k téléchargements (plugin NoGiveNotices) → https://umod.org/plugins/NoGiveNotices",
-    "FieldName": "UmodP_NoGiveNotices",
+    "DisplayName": "C10 - Crafting Controller",
+    "Description": "Temps de fabrication réglables : fabrication 2 fois plus rapide du 2x (v3.3.7). (plugin CraftingController) → https://umod.org/plugins/CraftingController",
+    "FieldName": "UmodP_CraftingController",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_NoGiveNotices",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_CraftingController",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp craftingcontroller",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin nogivenotices"
+    }
   },
   {
-    "DisplayName": "P11 - Backpacks",
-    "Description": "Sacs à dos donnant de l'inventaire supplémentaire aux joueurs — 335k téléchargements (plugin Backpacks) → https://umod.org/plugins/Backpacks",
-    "FieldName": "UmodP_Backpacks",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_Backpacks",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin backpacks"
-  },
-  {
-    "DisplayName": "P12 - Better Loot",
-    "Description": "Refonte complète du système de loot des caisses — 331k téléchargements (plugin BetterLoot) → https://umod.org/plugins/BetterLoot",
-    "FieldName": "UmodP_BetterLoot",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_BetterLoot",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin betterloot"
-  },
-  {
-    "DisplayName": "P13 - Quick Smelt",
-    "Description": "Accélère la fonte dans les fours — 306k téléchargements (plugin QuickSmelt) → https://umod.org/plugins/QuickSmelt",
-    "FieldName": "UmodP_QuickSmelt",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_QuickSmelt",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin quicksmelt"
-  },
-  {
-    "DisplayName": "P14 - Furnace Splitter",
-    "Description": "Répartit automatiquement le minerai en stacks égaux dans les fours — 278k téléchargements (plugin FurnaceSplitter) → https://umod.org/plugins/FurnaceSplitter",
+    "DisplayName": "C11 - Furnace Splitter",
+    "Description": "Les fours répartissent le minerai tout seuls : confort sans avantage au combat (v2.5.4). (plugin FurnaceSplitter) → https://umod.org/plugins/FurnaceSplitter",
     "FieldName": "UmodP_FurnaceSplitter",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
+    "Subcategory": "PvP compétitif",
     "ParamFieldName": "UmodP_FurnaceSplitter",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp furnacesplitter",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin furnacesplitter"
+    }
   },
   {
-    "DisplayName": "P15 - True PVE",
-    "Description": "Serveur PVE : protège les joueurs et leurs constructions du PVP — 251k téléchargements (plugin TruePVE) → https://umod.org/plugins/TruePVE",
-    "FieldName": "UmodP_TruePVE",
+    "DisplayName": "C12 - BGrade",
+    "Description": "Pose les pièces de construction directement au niveau choisi (v1.1.7). (plugin BGrade) → https://umod.org/plugins/BGrade",
+    "FieldName": "UmodP_BGrade",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_TruePVE",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_BGrade",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp bgrade",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin truepve"
+    }
   },
   {
-    "DisplayName": "P16 - Instant Craft",
-    "Description": "Craft instantané des objets — 235k téléchargements (plugin InstantCraft) → https://umod.org/plugins/InstantCraft",
-    "FieldName": "UmodP_InstantCraft",
+    "DisplayName": "C13 - Auto Doors",
+    "Description": "Les portes se ferment seules après quelques secondes (v3.3.12). (plugin AutoDoors) → https://umod.org/plugins/AutoDoors",
+    "FieldName": "UmodP_AutoDoors",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_InstantCraft",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_AutoDoors",
     "IncludeInCommandLine": false,
-    "DefaultValue": "false",
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp autodoors",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin instantcraft"
+    }
   },
   {
-    "DisplayName": "P17 - Raidable Bases",
+    "DisplayName": "C14 - Remover Tool",
+    "Description": "Retirer ses propres pièces : à régler sur 10 minutes après la pose et bloqué pendant un raid (v4.3.48). (plugin RemoverTool) → https://umod.org/plugins/RemoverTool",
+    "FieldName": "UmodP_RemoverTool",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_RemoverTool",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp removertool",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "C15 - Zone Manager",
+    "Description": "Zones à règles (arène, zone sûre de La Taverne) ; demandé par Duelist (v3.1.14). (plugin ZoneManager) → https://umod.org/plugins/ZoneManager",
+    "FieldName": "UmodP_ZoneManager",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_ZoneManager",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp zonemanager",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "C16 - Copy Paste",
+    "Description": "Copier-coller de constructions : arène et monuments TeamKit posés sur chaque carte (v4.3.0). (plugin CopyPaste) → https://umod.org/plugins/CopyPaste",
+    "FieldName": "UmodP_CopyPaste",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_CopyPaste",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp copypaste",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "C17 - Vanish",
+    "Description": "Invisibilité des admins (permission vanish.allow) (v2.1.5). (plugin Vanish) → https://umod.org/plugins/Vanish",
+    "FieldName": "UmodP_Vanish",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_Vanish",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp vanish",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "C18 - Admin Radar",
+    "Description": "Radar du staff pour surveiller joueurs et entités : anti-triche (v5.4.4). (plugin AdminRadar) → https://umod.org/plugins/AdminRadar",
+    "FieldName": "UmodP_AdminRadar",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_AdminRadar",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp adminradar",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "C19 - Player Administration",
+    "Description": "Fenêtre de modération des joueurs pour le staff (v1.6.10). (plugin PlayerAdministration) → https://umod.org/plugins/PlayerAdministration",
+    "FieldName": "UmodP_PlayerAdministration",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_PlayerAdministration",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp playeradministration",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "C20 - Image Library",
+    "Description": "Bibliothèque d'images utilisée par d'autres plugins à interface (v2.0.67). (plugin ImageLibrary) → https://umod.org/plugins/ImageLibrary",
+    "FieldName": "UmodP_ImageLibrary",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_ImageLibrary",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "true",
+    "Keywords": "umod plugin pvp imagelibrary",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "C21 - Simple Kill Feed",
+    "Description": "Kill feed à l'écran. À tester en bêta : certains joueurs PvP n'en veulent pas (v2.4.4). (plugin SimpleKillFeed) → https://umod.org/plugins/SimpleKillFeed",
+    "FieldName": "UmodP_SimpleKillFeed",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "PvP compétitif",
+    "ParamFieldName": "UmodP_SimpleKillFeed",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin pvp simplekillfeed",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "P01 - Gather Manager",
+    "Description": "Récolte ×2 du format 2x (taux dans oxide/config/GatherManager.json). Vieux plugin : à vérifier en bêta. 661k téléchargements (plugin GatherManager) → https://umod.org/plugins/GatherManager",
+    "FieldName": "UmodP_GatherManager",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Autres plugins",
+    "ParamFieldName": "UmodP_GatherManager",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin gathermanager",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "P02 - Raidable Bases",
     "Description": "Bases raidables automatiques avec PNJ (événement PVE très populaire) — 217k téléchargements (plugin RaidableBases) → https://umod.org/plugins/RaidableBases",
     "FieldName": "UmodP_RaidableBases",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
+    "Subcategory": "Autres plugins",
     "ParamFieldName": "UmodP_RaidableBases",
     "IncludeInCommandLine": false,
     "DefaultValue": "false",
+    "Keywords": "umod plugin raidablebases",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin raidablebases"
+    }
   },
   {
-    "DisplayName": "P18 - Death Notes",
-    "Description": "Annonce les morts dans le chat avec les détails (arme, distance...) — 216k téléchargements (plugin DeathNotes) → https://umod.org/plugins/DeathNotes",
-    "FieldName": "UmodP_DeathNotes",
+    "DisplayName": "P03 - No Give Notices",
+    "Description": "Masque les annonces de /give dans le chat — 382k téléchargements (plugin NoGiveNotices) → https://umod.org/plugins/NoGiveNotices",
+    "FieldName": "UmodP_NoGiveNotices",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_DeathNotes",
+    "Subcategory": "Autres plugins",
+    "ParamFieldName": "UmodP_NoGiveNotices",
     "IncludeInCommandLine": false,
     "DefaultValue": "false",
+    "Keywords": "umod plugin nogivenotices",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin deathnotes"
+    }
   },
   {
-    "DisplayName": "P19 - Admin Panel",
+    "DisplayName": "P04 - Admin Panel",
     "Description": "Petit panneau GUI de commandes rapides pour les admins — 213k téléchargements (plugin AdminPanel) → https://umod.org/plugins/AdminPanel",
     "FieldName": "UmodP_AdminPanel",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
+    "Subcategory": "Autres plugins",
     "ParamFieldName": "UmodP_AdminPanel",
     "IncludeInCommandLine": false,
     "DefaultValue": "false",
+    "Keywords": "umod plugin adminpanel",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin adminpanel"
+    }
   },
   {
-    "DisplayName": "P20 - Zone Manager",
-    "Description": "Création de zones avec règles personnalisées (PVP, build, spawn...) — 206k téléchargements (plugin ZoneManager) → https://umod.org/plugins/ZoneManager",
-    "FieldName": "UmodP_ZoneManager",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_ZoneManager",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin zonemanager"
-  },
-  {
-    "DisplayName": "P21 - Info Panel",
-    "Description": "Panneau d'infos à l'écran : horloge, joueurs en ligne, messages — 206k téléchargements (plugin InfoPanel) → https://umod.org/plugins/InfoPanel",
-    "FieldName": "UmodP_InfoPanel",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_InfoPanel",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin infopanel"
-  },
-  {
-    "DisplayName": "P22 - Sign Artist",
-    "Description": "Charge des images depuis une URL sur les pancartes — 205k téléchargements (plugin SignArtist) → https://umod.org/plugins/SignArtist",
-    "FieldName": "UmodP_SignArtist",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_SignArtist",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin signartist"
-  },
-  {
-    "DisplayName": "P23 - Player Administration",
-    "Description": "Interface GUI complète de modération des joueurs — 196k téléchargements (plugin PlayerAdministration) → https://umod.org/plugins/PlayerAdministration",
-    "FieldName": "UmodP_PlayerAdministration",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_PlayerAdministration",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin playeradministration"
-  },
-  {
-    "DisplayName": "P24 - Time Of Day",
-    "Description": "Modifie la durée du jour et de la nuit — 194k téléchargements (plugin TimeOfDay) → https://umod.org/plugins/TimeOfDay",
-    "FieldName": "UmodP_TimeOfDay",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_TimeOfDay",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin timeofday"
-  },
-  {
-    "DisplayName": "P25 - Skins",
-    "Description": "Change facilement les skins Workshop des objets — 179k téléchargements (plugin Skins) → https://umod.org/plugins/Skins",
-    "FieldName": "UmodP_Skins",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_Skins",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin skins"
-  },
-  {
-    "DisplayName": "P26 - ZLevels Remastered",
-    "Description": "Système de niveaux : minage, bûcheronnage, craft... avec bonus — 177k téléchargements (plugin ZLevelsRemastered) → https://umod.org/plugins/ZLevelsRemastered",
-    "FieldName": "UmodP_ZLevelsRemastered",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_ZLevelsRemastered",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin zlevelsremastered"
-  },
-  {
-    "DisplayName": "P27 - Crafting Controller",
-    "Description": "Contrôle les temps de craft et les objets craftables — 170k téléchargements (plugin CraftingController) → https://umod.org/plugins/CraftingController",
-    "FieldName": "UmodP_CraftingController",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_CraftingController",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin craftingcontroller"
-  },
-  {
-    "DisplayName": "P28 - Blueprint Manager",
+    "DisplayName": "P05 - Blueprint Manager",
     "Description": "Gestion des blueprints (déblocage auto, wipe...) — 155k téléchargements (plugin BlueprintManager) → https://umod.org/plugins/BlueprintManager",
     "FieldName": "UmodP_BlueprintManager",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
+    "Subcategory": "Autres plugins",
     "ParamFieldName": "UmodP_BlueprintManager",
     "IncludeInCommandLine": false,
     "DefaultValue": "false",
+    "Keywords": "umod plugin blueprintmanager",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin blueprintmanager"
+    }
   },
   {
-    "DisplayName": "P29 - BGrade",
-    "Description": "Améliore automatiquement les blocs au niveau choisi dès la pose — 145k téléchargements (plugin BGrade) → https://umod.org/plugins/BGrade",
-    "FieldName": "UmodP_BGrade",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_BGrade",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin bgrade"
-  },
-  {
-    "DisplayName": "P30 - Chest Stack Multiplier",
-    "Description": "Stacks plus grands dans les coffres uniquement — 144k téléchargements (plugin ChestStackMultiplier) → https://umod.org/plugins/ChestStackMultiplier",
-    "FieldName": "UmodP_ChestStackMultiplier",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_ChestStackMultiplier",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin cheststackmultiplier"
-  },
-  {
-    "DisplayName": "P31 - Magic Loot",
-    "Description": "Multiplicateur simple de composants et de loot — 142k téléchargements (plugin MagicLoot) → https://umod.org/plugins/MagicLoot",
-    "FieldName": "UmodP_MagicLoot",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_MagicLoot",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin magicloot"
-  },
-  {
-    "DisplayName": "P32 - Auto Doors",
-    "Description": "Ferme automatiquement les portes derrière les joueurs après X secondes — 138k téléchargements (plugin AutoDoors) → https://umod.org/plugins/AutoDoors",
-    "FieldName": "UmodP_AutoDoors",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_AutoDoors",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin autodoors"
-  },
-  {
-    "DisplayName": "P33 - Building Grades",
-    "Description": "Améliore ou rétrograde un bâtiment entier en une commande — 137k téléchargements (plugin BuildingGrades) → https://umod.org/plugins/BuildingGrades",
-    "FieldName": "UmodP_BuildingGrades",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_BuildingGrades",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin buildinggrades"
-  },
-  {
-    "DisplayName": "P34 - Admin Utilities",
+    "DisplayName": "P06 - Admin Utilities",
     "Description": "Utilitaires admin : noclip et autres fonctions pratiques — 130k téléchargements (plugin AdminUtilities) → https://umod.org/plugins/AdminUtilities",
     "FieldName": "UmodP_AdminUtilities",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
+    "Subcategory": "Autres plugins",
     "ParamFieldName": "UmodP_AdminUtilities",
     "IncludeInCommandLine": false,
     "DefaultValue": "false",
+    "Keywords": "umod plugin adminutilities",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin adminutilities"
+    }
   },
   {
-    "DisplayName": "P35 - Godmode",
-    "Description": "Mode invincible pour les admins (permission) — 128k téléchargements (plugin Godmode) → https://umod.org/plugins/Godmode",
+    "DisplayName": "X01 - (ancien) Rust Kits",
+    "Description": "Déconseillé : change l'équilibre, contraire au « vanilla+ ». Kits d'objets, kits automatiques au spawn, délais de réutilisation — 481k téléchargements (plugin Kits) → https://umod.org/plugins/Kits",
+    "FieldName": "UmodP_Kits",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_Kits",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin kits",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X02 - (ancien) NTeleportation",
+    "Description": "Déconseillé : téléportation, contraire au « vanilla+ ». Téléportations /home, /tpr, /town pour joueurs et admins — 430k téléchargements (plugin NTeleportation) → https://umod.org/plugins/NTeleportation",
+    "FieldName": "UmodP_NTeleportation",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_NTeleportation",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin nteleportation",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X03 - (ancien) Backpacks",
+    "Description": "Déconseillé : inventaire en plus, contraire au « vanilla+ ». Sacs à dos donnant de l'inventaire supplémentaire aux joueurs — 335k téléchargements (plugin Backpacks) → https://umod.org/plugins/Backpacks",
+    "FieldName": "UmodP_Backpacks",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_Backpacks",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin backpacks",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X04 - (ancien) Better Loot",
+    "Description": "Déconseillé : butin modifié, contraire au « vanilla+ ». Refonte complète du système de loot des caisses — 331k téléchargements (plugin BetterLoot) → https://umod.org/plugins/BetterLoot",
+    "FieldName": "UmodP_BetterLoot",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_BetterLoot",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin betterloot",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X05 - (ancien) Quick Smelt",
+    "Description": "Déconseillé : change l'équilibre, contraire au « vanilla+ ». Accélère la fonte dans les fours — 306k téléchargements (plugin QuickSmelt) → https://umod.org/plugins/QuickSmelt",
+    "FieldName": "UmodP_QuickSmelt",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_QuickSmelt",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin quicksmelt",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X06 - (ancien) Stack Size Controller",
+    "Description": "Déconseillé : change l'équilibre, contraire au « vanilla+ ». Personnalise la taille maximale des stacks de chaque objet — 588k téléchargements (plugin StackSizeController) → https://umod.org/plugins/StackSizeController",
+    "FieldName": "UmodP_StackSizeController",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_StackSizeController",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin stacksizecontroller",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X07 - (ancien) Instant Craft",
+    "Description": "Déconseillé : fabrication instantanée, hors sujet en PvP. Craft instantané des objets — 235k téléchargements (plugin InstantCraft) → https://umod.org/plugins/InstantCraft",
+    "FieldName": "UmodP_InstantCraft",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_InstantCraft",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin instantcraft",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X08 - (ancien) Magic Loot",
+    "Description": "Déconseillé : butin modifié, hors sujet en PvP. Multiplicateur simple de composants et de loot — 142k téléchargements (plugin MagicLoot) → https://umod.org/plugins/MagicLoot",
+    "FieldName": "UmodP_MagicLoot",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_MagicLoot",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin magicloot",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X09 - (ancien) Chest Stack Multiplier",
+    "Description": "Déconseillé : change l'équilibre, contraire au « vanilla+ ». Stacks plus grands dans les coffres uniquement — 144k téléchargements (plugin ChestStackMultiplier) → https://umod.org/plugins/ChestStackMultiplier",
+    "FieldName": "UmodP_ChestStackMultiplier",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_ChestStackMultiplier",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin cheststackmultiplier",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X10 - (ancien) ZLevels Remastered",
+    "Description": "Déconseillé : bonus de niveau, change l'équilibre. Système de niveaux : minage, bûcheronnage, craft... avec bonus — 177k téléchargements (plugin ZLevelsRemastered) → https://umod.org/plugins/ZLevelsRemastered",
+    "FieldName": "UmodP_ZLevelsRemastered",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_ZLevelsRemastered",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin zlevelsremastered",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X11 - (ancien) True PVE",
+    "Description": "Déconseillé : serveur PvE, hors sujet en PvP. Serveur PVE : protège les joueurs et leurs constructions du PVP — 251k téléchargements (plugin TruePVE) → https://umod.org/plugins/TruePVE",
+    "FieldName": "UmodP_TruePVE",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_TruePVE",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin truepve",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X12 - (ancien) Godmode",
+    "Description": "Déconseillé : invincibilité, hors sujet en PvP. Mode invincible pour les admins (permission) — 128k téléchargements (plugin Godmode) → https://umod.org/plugins/Godmode",
     "FieldName": "UmodP_Godmode",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
     "ParamFieldName": "UmodP_Godmode",
     "IncludeInCommandLine": false,
     "DefaultValue": "false",
+    "Keywords": "umod plugin godmode",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin godmode"
+    }
   },
   {
-    "DisplayName": "P36 - Vehicle License",
-    "Description": "Achat, spawn et rappel de véhicules : bateau, RHIB, montgolfière... — 123k téléchargements (plugin VehicleLicence) → https://umod.org/plugins/VehicleLicence",
-    "FieldName": "UmodP_VehicleLicence",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_VehicleLicence",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin vehiclelicence"
-  },
-  {
-    "DisplayName": "P37 - Welcomer",
-    "Description": "Messages de bienvenue et annonces d'arrivée/départ dans le chat — 117k téléchargements (plugin Welcomer) → https://umod.org/plugins/Welcomer",
-    "FieldName": "UmodP_Welcomer",
-    "InputType": "checkbox",
-    "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
-    "ParamFieldName": "UmodP_Welcomer",
-    "IncludeInCommandLine": false,
-    "DefaultValue": "false",
-    "EnumValues": {
-      "True": "true",
-      "False": "false"
-    },
-    "Keywords": "umod plugin welcomer"
-  },
-  {
-    "DisplayName": "P38 - Server Rewards",
-    "Description": "Points de récompense à gagner et boutique pour les dépenser — 113k téléchargements (plugin ServerRewards) → https://umod.org/plugins/ServerRewards",
+    "DisplayName": "X13 - (ancien) Server Rewards",
+    "Description": "Déconseillé : boutique en jeu, interdite chez TeamKit. Points de récompense à gagner et boutique pour les dépenser — 113k téléchargements (plugin ServerRewards) → https://umod.org/plugins/ServerRewards",
     "FieldName": "UmodP_ServerRewards",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
     "ParamFieldName": "UmodP_ServerRewards",
     "IncludeInCommandLine": false,
     "DefaultValue": "false",
+    "Keywords": "umod plugin serverrewards",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin serverrewards"
+    }
   },
   {
-    "DisplayName": "P39 - Building Actions",
-    "Description": "Rotation et démolition des constructions à volonté — 110k téléchargements (plugin BuildingActions) → https://umod.org/plugins/BuildingActions",
+    "DisplayName": "X14 - (ancien) Vehicle License",
+    "Description": "Déconseillé : achat de véhicules en jeu, hors sujet en PvP. Achat, spawn et rappel de véhicules : bateau, RHIB, montgolfière... — 123k téléchargements (plugin VehicleLicence) → https://umod.org/plugins/VehicleLicence",
+    "FieldName": "UmodP_VehicleLicence",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_VehicleLicence",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin vehiclelicence",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X15 - (ancien) Time Of Day",
+    "Description": "Déconseillé : ancien, inutile. Modifie la durée du jour et de la nuit — 194k téléchargements (plugin TimeOfDay) → https://umod.org/plugins/TimeOfDay",
+    "FieldName": "UmodP_TimeOfDay",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_TimeOfDay",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin timeofday",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X16 - (ancien) Building Actions",
+    "Description": "Déconseillé : ancien, inutile. Rotation et démolition des constructions à volonté — 110k téléchargements (plugin BuildingActions) → https://umod.org/plugins/BuildingActions",
     "FieldName": "UmodP_BuildingActions",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
     "ParamFieldName": "UmodP_BuildingActions",
     "IncludeInCommandLine": false,
     "DefaultValue": "false",
+    "Keywords": "umod plugin buildingactions",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin buildingactions"
+    }
   },
   {
-    "DisplayName": "P40 - Automated Events",
-    "Description": "Déclenchement automatique des événements (héli, cargo, airdrop...) — 109k téléchargements (plugin AutomatedEvents) → https://umod.org/plugins/AutomatedEvents",
+    "DisplayName": "X17 - (ancien) Building Grades",
+    "Description": "Déconseillé : ancien, BGrade suffit. Améliore ou rétrograde un bâtiment entier en une commande — 137k téléchargements (plugin BuildingGrades) → https://umod.org/plugins/BuildingGrades",
+    "FieldName": "UmodP_BuildingGrades",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_BuildingGrades",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin buildinggrades",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X18 - (ancien) Welcomer",
+    "Description": "Déconseillé : ancien, inutile. Messages de bienvenue et annonces d'arrivée/départ dans le chat — 117k téléchargements (plugin Welcomer) → https://umod.org/plugins/Welcomer",
+    "FieldName": "UmodP_Welcomer",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_Welcomer",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin welcomer",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X19 - (ancien) Info Panel",
+    "Description": "Déconseillé : ancien, inutile. Panneau d'infos à l'écran : horloge, joueurs en ligne, messages — 206k téléchargements (plugin InfoPanel) → https://umod.org/plugins/InfoPanel",
+    "FieldName": "UmodP_InfoPanel",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_InfoPanel",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin infopanel",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X20 - (ancien) Sign Artist",
+    "Description": "Déconseillé : images choquantes possibles sur les panneaux. Charge des images depuis une URL sur les pancartes — 205k téléchargements (plugin SignArtist) → https://umod.org/plugins/SignArtist",
+    "FieldName": "UmodP_SignArtist",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_SignArtist",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin signartist",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
+  },
+  {
+    "DisplayName": "X21 - (ancien) Automated Events",
+    "Description": "Déconseillé : inutile : les événements de Facepunch suffisent. Déclenchement automatique des événements (héli, cargo, airdrop...) — 109k téléchargements (plugin AutomatedEvents) → https://umod.org/plugins/AutomatedEvents",
     "FieldName": "UmodP_AutomatedEvents",
     "InputType": "checkbox",
     "Category": "Rust TeamKit",
-    "Subcategory": "Plugins populaires",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
     "ParamFieldName": "UmodP_AutomatedEvents",
     "IncludeInCommandLine": false,
     "DefaultValue": "false",
+    "Keywords": "umod plugin automatedevents",
     "EnumValues": {
       "True": "true",
       "False": "false"
-    },
-    "Keywords": "umod plugin automatedevents"
+    }
+  },
+  {
+    "DisplayName": "X22 - (ancien) Skins",
+    "Description": "Déconseillé : skins sans les posséder : contraire aux règles Facepunch depuis le 07/08/2025. Change facilement les skins Workshop des objets — 179k téléchargements (plugin Skins) → https://umod.org/plugins/Skins",
+    "FieldName": "UmodP_Skins",
+    "InputType": "checkbox",
+    "Category": "Rust TeamKit",
+    "Subcategory": "Anciens plugins (déconseillés en PvP)",
+    "ParamFieldName": "UmodP_Skins",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "Keywords": "umod plugin skins",
+    "EnumValues": {
+      "True": "true",
+      "False": "false"
+    }
   }
 ]
