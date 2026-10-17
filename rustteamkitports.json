@@ -4,27 +4,27 @@
     "Port": 28015,
     "Ref": "GamePort",
     "Name": "Game Port",
-    "Description": "Port de jeu Rust (+server.port)."
+    "Description": "Port de jeu Rust (+server.port). Ouvert au public."
   },
   {
     "Protocol": "UDP",
     "Port": 28016,
     "Ref": "QueryPort",
     "Name": "Query Port",
-    "Description": "Port de requête Steam (+server.queryport)."
+    "Description": "Port des requêtes de la liste des serveurs (+server.queryport). Ouvert au public."
   },
   {
     "Protocol": "TCP",
     "Port": 28017,
     "Ref": "RconPort",
     "Name": "RCON Port",
-    "Description": "Port WebRCON (+rcon.port) — pour RustAdmin, webrcon.io, etc."
+    "Description": "Port RCON (+rcon.port) : À FERMER AU PUBLIC. Seulement depuis la machine (bot, pont Twitch, RustAdmin par tunnel SSH). La console d'AMP passe par lui en local."
   },
   {
     "Protocol": "TCP",
     "Port": 28082,
     "Ref": "RustPlusPort",
     "Name": "Rust+ App Port",
-    "Description": "Port de l'application mobile Rust+ (+app.port)."
+    "Description": "Port de l'application mobile Rust+ (+app.port). Ouvert au public."
   }
 ]
