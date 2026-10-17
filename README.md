@@ -31,7 +31,10 @@ est cassée depuis que Facepunch a changé le format de ses journaux.
 4. Configuration → **Serveur** : « Adresse publique (Rust+) » = l'adresse IP publique de la machine.
 5. **Update** (environ 10 Go par SteamCMD, puis Oxide, puis le lanceur TeamKit), puis **Start**.
 6. Premier démarrage : la carte est générée, plusieurs minutes à fort processeur. Les ports de
-   jeu ne s'ouvrent qu'à la fin (« Server startup complete »).
+   jeu ne s'ouvrent qu'à la fin (« Server startup complete »). Rust écrit **toujours**
+   « Generating procedural map », même quand il recharge une sauvegarde : c'est
+   « Couldn't load server/<identité>/proceduralmap…sav - file doesn't exist » qui dit « monde neuf »,
+   et « Spawning N entities from save » qui dit « monde rechargé » (le lanceur l'écrit en clair).
 
 **Une instance existante ne reçoit pas cette version** : ADS ne recopie pas `App.*` sur une
 instance déjà créée. Il faut recréer l'instance, ou recopier `App.*` et lancer Update.
@@ -138,11 +141,27 @@ une fois le wipe fait. Il peut aussi être déposé avec le gestionnaire de fich
 - Les réglages de chaque plugin sont dans `oxide/config/` : à faire une fois (Clans limité à 4
   sans alliance, Remover Tool limité à ses propres pièces, Gather Manager à ×2...).
 - Les permissions Oxide ne sont pas les droits d'admin du serveur : `oxide.grant group admin <perm>`.
+- **Plugins au prochain wipe** : la page « 🔄 Plugins Rust » du panel TeamKit dépose une version
+  préparée dans `oxide/plugins-au-prochain-wipe/<Nom>.cs`. Au wipe seulement, avant le démarrage, le
+  lanceur la met en service dans `oxide/plugins/` et garde l'ancienne dans
+  `oxide/plugins-precedents/<Nom>.cs.<AAAAMMJJ-HHMMSS>` (un nom autre que `<Nom>.cs`, ou un fichier
+  qui n'est pas un plugin Oxide, reste où il est). À utiliser avec « Mettre à jour les plugins au
+  démarrage » sur **Non**, sinon uMod remplace aussitôt la version posée par sa dernière.
+- `oxide/data/copypaste/` est créé s'il manque : sans lui, Copy Paste plante (`copylist`, `paste`).
+- **Wipe Protection** compte ses 3 h depuis la création de la carte ; si sa config arrive après,
+  il garde 24 h. Après chaque wipe, le lanceur envoie donc `wp start` par RCON dès que le serveur
+  est prêt (à taper soi-même si le message dit « non transmis »).
 
 ## Le lanceur
 
 `rust/258550/lancer-rust.py` (Python 3, sans bibliothèque en plus), posé par l'Update.
 `python3 lancer-rust.py rcon status` envoie une commande au serveur qui tourne, depuis la machine.
+Les codes couleur ANSI de RustDedicated (`[37m`…) sont retirés de chaque ligne avant de la
+relayer à AMP : les regex de la console (prêt, arrivées, départs) et nos repères les voient en clair.
+Après `quit`, RustDedicated rend -1 : quand l'arrêt a été demandé et la sauvegarde vue
+(« Saved … ents »), le lanceur sort en 0, pour qu'AMP ne croie pas à un plantage.
+Le mot de passe RCON passe par `+rcon.password` (obligatoire : écrit dans server.cfg, il n'est
+pas pris et Rust répond « RCON is disabled ») ; Rust le masque dans son journal.
 
 ## Vérifier avant de pousser
 
