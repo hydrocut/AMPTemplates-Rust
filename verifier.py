@@ -356,7 +356,7 @@ with open('faux-argv.json', 'w') as f:
     json.dump(args, f)
 port, mdp = int(val('+rcon.port')), val('+rcon.password')
 def dire(t):
-    sys.stdout.write(t + '\n'); sys.stdout.flush()
+    sys.stdout.write('\x1b[37m' + t + '\x1b[0m\n'); sys.stdout.flush()
 def lire_exact(c, n):
     d = b''
     while len(d) < n:
@@ -398,12 +398,18 @@ def client(c):
             envoyer(c, {'Identifier': ident, 'Message': 'Saved', 'Type': 'Generic'})
         elif cmd == 'quit':
             dire('quitting')
-            os._exit(0)
+            os._exit(255)   # le vrai RustDedicated rend -1 apres quit (constat du banc local, 18/10/2026)
         else:
             envoyer(c, {'Identifier': ident, 'Message': 'reponse a ' + cmd + '\nplayers : 0 (150 max)', 'Type': 'Generic'})
 s = socket.socket(); s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind(('127.0.0.1', port)); s.listen(5)
 dire('RCON Started on ' + str(port))
+dire('Generating procedural map of size 4000 with seed ' + str(val('+server.seed')))
+import glob
+if glob.glob(os.path.join('server', '*', 'proceduralmap.*.sav')):
+    dire('Spawning 3,386 entities from save')
+else:
+    dire("Couldn't load server/teamkit/proceduralmap.4000." + str(val('+server.seed')) + ".270.sav - file doesn't exist")
 dire('Server startup complete')
 while True:
     c, _ = s.accept()
@@ -551,8 +557,16 @@ def essai():
             'B : mot de passe ABSENT de la ligne de commande d\'AMP : %s' % ' '.join(argv_amp[2:]))
         (ok if argv_rust and argv_rust[argv_rust.index('+rcon.password') + 1] == MDP_ESSAI else non)(
             'B : RustDedicated le reçoit par +rcon.password (seule voie que Rust accepte)')
-        (ok if cmds[:3] == ['status', 'server.save', 'quit'] and code_b == 0 else non)(
-            'B : console d\'AMP relayée, puis arrêt propre : %s, code %s' % (' -> '.join(cmds), code_b))
+        sans_wp = ' '.join(cmds).replace('wp start', ' ').split()   # faux-commandes.txt est relu mot à mot
+        (ok if sans_wp[:3] == ['status', 'server.save', 'quit'] and code_b == 0 else non)(
+            'B : console d\'AMP relayée, puis arrêt propre (RustDedicated rend -1, le lanceur 0) : %s, code %s' % (' -> '.join(cmds), code_b))
+        (ok if 'wp start' in ' '.join(cmds) and any('wp start' in l and 'RCON' in l for l in sortie) else non)(
+            'B : après le wipe, « wp start » envoyé par RCON une fois le serveur prêt (WipeProtection : 3 h, pas 24 h)')
+        (ok if not any('\x1b' in l for l in sortie) and 'Server startup complete' in sortie else non)(
+            'B : codes couleur ANSI retirés avant de relayer à AMP (« Server startup complete » reconnu tel quel)')
+        (ok if any('monde neuf' in l for l in sortie) else non)('B : monde neuf reconnu (« Couldn\'t load … file doesn\'t exist »)')
+        (ok if os.path.isdir(os.path.join(base, 'oxide', 'data', 'copypaste')) else non)(
+            'B : oxide/data/copypaste/ créé (CopyPaste plante sans lui)')
         (ok if any(l.startswith('[RCON] reponse a status') for l in sortie)
          and not any('bruit de la console' in l for l in sortie if l.startswith('[RCON]')) else non)(
             'B : réponse RCON affichée, bruit de la console ignoré')
@@ -567,8 +581,16 @@ def essai():
         (ok if (stat_mode(os.path.join(base, 'reglages-rust.txt')) & 0o077) == 0 or os.name != 'posix' else non)(
             'B : reglages-rust.txt lisible par l\'instance seule (600)')
 
-        # C. même soirée, redémarrage : pas de second wipe
+        # C. même soirée, redémarrage : pas de second wipe ; un plugin attend le prochain wipe (page « Plugins Rust »)
         poser_monde(graine_b)
+        au_wipe = os.path.join(base, 'oxide', 'plugins-au-prochain-wipe')
+        os.makedirs(au_wipe)
+        with open(os.path.join(au_wipe, 'Clans.cs'), 'w') as f:
+            f.write('namespace Oxide.Plugins { [Info("Clans", "k1lly0u", "9.9.9")] class Clans {} }\n')
+        with open(os.path.join(au_wipe, 'Faux.cs'), 'w') as f:
+            f.write('pas un plugin')
+        with open(os.path.join(au_wipe, 'mal nom.cs'), 'w') as f:
+            f.write('namespace Oxide.Plugins {}')
         code_c, sortie, cmds, _, argv_rust = lancer({'WipeAuto': 'carte_plans_force', 'ArchivesGardees': '2'},
                                                     '2026-12-03T21:30Z')
         print('  C. même soir, 22:30 : redémarrage')
@@ -577,6 +599,10 @@ def essai():
          else non)('C : pas de second wipe dans la même période')
         (ok if argv_rust and int(argv_rust[argv_rust.index('+server.seed') + 1]) == graine_b else non)(
             'C : même graine gardée')
+        (ok if 'wp start' not in ' '.join(cmds) and os.path.isfile(os.path.join(au_wipe, 'Clans.cs'))
+         and '9.9.9' not in open(os.path.join(plugins, 'Clans.cs')).read() else non)(
+            'C : sans wipe, ni « wp start » ni plugin posé : Clans 9.9.9 attend dans plugins-au-prochain-wipe/')
+        (ok if any('monde recharge' in l for l in sortie) else non)('C : monde rechargé reconnu (« Spawning N entities from save »)')
 
         # D. jeudi 10/12 20:10 : wipe de carte seul (pas le 1er jeudi), plans gardés
         code_d, sortie, _, _, _ = lancer({'WipeAuto': 'carte_plans_force', 'ArchivesGardees': '2',
@@ -587,6 +613,16 @@ def essai():
         (ok if len(archives()) == 2 and 'player.blueprints.5.db' in restants
          and not any(n.endswith('.sav') for n in restants) else non)('D : carte effacée, plans gardés, 2 archives')
         (ok if any('saison figee' in l for l in sortie) else non)('D : plugins gardés tels quels (saison figée)')
+        precedents = os.path.join(base, 'oxide', 'plugins-precedents')
+        anciens = sorted(os.listdir(precedents)) if os.path.isdir(precedents) else []
+        (ok if '9.9.9' in open(os.path.join(plugins, 'Clans.cs')).read() and not os.path.exists(os.path.join(au_wipe, 'Clans.cs'))
+         and len(anciens) == 1 and re.match(r'^Clans\.cs\.\d{8}-\d{6}$', anciens[0])
+         and '1.0.0' in open(os.path.join(precedents, anciens[0])).read() else non)(
+            'D : au wipe, Clans 9.9.9 passe de plugins-au-prochain-wipe/ à plugins/, l\'ancien gardé : %s' % anciens)
+        (ok if sorted(os.listdir(au_wipe)) == ['Faux.cs', 'mal nom.cs'] and any('ignore' in l and 'Faux.cs' in l for l in sortie) else non)(
+            'D : fichiers suspects laissés de côté (pas un plugin Oxide, nom refusé)')
+        etat = json.load(open(os.path.join(base, 'teamkit-etat.json')))
+        (ok if etat.get('plugins_poses_au_wipe') == ['Clans'] else non)('D : teamkit-etat.json note les plugins posés au wipe')
 
         # E. « Wipe au prochain démarrage » = carte + plans, 3 archives demandées -> rotation à 2
         poser_monde(999)
