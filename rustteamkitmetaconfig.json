@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "ConfigFile": "reglages-rust.txt",
+        "ConfigType": "template",
+        "AutoMap": true,
+        "ConfigFileTemplate": "rust/AMP_reglages-rust.txt"
+    }
+]
