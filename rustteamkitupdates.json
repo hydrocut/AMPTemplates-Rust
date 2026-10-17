@@ -20,6 +20,28 @@
     "SkipOnFailure": false
   },
   {
+    "UpdateStageName": "Lanceur TeamKit (lancer-rust.py)",
+    "UpdateSourcePlatform": "Linux",
+    "UpdateSource": "FetchURL",
+    "UpdateSourceData": "https://raw.githubusercontent.com/hydrocut/AMPTemplates-Rust/main/scripts/lancer-rust.py",
+    "UpdateSourceArgs": "lancer-rust.py",
+    "UpdateSourceTarget": "{{$FullBaseDir}}",
+    "UnzipUpdateSource": false,
+    "OverwriteExistingFiles": true,
+    "SkipOnFailure": false
+  },
+  {
+    "UpdateStageName": "Modèle des réglages (AMP_reglages-rust.txt)",
+    "UpdateSourcePlatform": "Linux",
+    "UpdateSource": "FetchURL",
+    "UpdateSourceData": "https://raw.githubusercontent.com/hydrocut/AMPTemplates-Rust/main/scripts/AMP_reglages-rust.txt",
+    "UpdateSourceArgs": "AMP_reglages-rust.txt",
+    "UpdateSourceTarget": "{{$FullRootDir}}",
+    "UnzipUpdateSource": false,
+    "OverwriteExistingFiles": true,
+    "SkipOnFailure": false
+  },
+  {
     "UpdateStageName": "Dossier de configuration serveur",
     "UpdateSourcePlatform": "Linux",
     "UpdateSource": "CreateDirectory",
