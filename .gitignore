@@ -1,0 +1,7 @@
+# Le depot ne contient que le modele : rien de ce qui suit ne doit y entrer.
+__pycache__/
+*.pyc
+reglages-rust.txt
+teamkit-etat.json
+wipe-demande.txt
+rust/
