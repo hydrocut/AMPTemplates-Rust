@@ -14,14 +14,25 @@
   3. ecrit server/<identite>/cfg/users.cfg (proprietaires et moderateurs choisis dans AMP) ;
   4. fait le wipe s'il est du : archive datee de server/<identite>/ (les N dernieres gardees),
      effacement de la carte (et des plans si demande), nouvelle graine si « auto » ;
-  5. installe Oxide s'il manque, telecharge les plugins uMod coches (tous a chaque demarrage,
+  5. au wipe seulement, met en service les plugins deposes dans oxide/plugins-au-prochain-wipe/
+     par la page « Plugins Rust » du panel TeamKit (l'ancienne version va dans
+     oxide/plugins-precedents/<Nom>.cs.<date>) ; cree oxide/data/copypaste/ s'il manque ;
+     installe Oxide s'il manque, telecharge les plugins uMod coches (tous a chaque demarrage,
      ou seulement les manquants quand la saison est figee) et met de cote ceux qu'on a decoches ;
   6. lance RustDedicated, relaie la console d'AMP vers le RCON local du serveur (say, kick,
      status, oxide.reload... marchent depuis AMP). Deux commandes sont gardees pour TeamKit :
      « teamkit.wipe carte|plans|annuler » (wipe au prochain demarrage, aussi par l'API d'AMP
      pour le bot ou le site) et « teamkit.periode » ;
   7. a l'arret demande par AMP (SIGTERM) ou par « quit » dans la console : server.save puis
-     quit par RCON, et seulement si le RCON ne repond pas, SIGTERM au serveur.
+     quit par RCON, et seulement si le RCON ne repond pas, SIGTERM au serveur. RustDedicated rend
+     -1 apres quit : un arret demande ET sauvegarde sort en 0 (sinon AMP croirait a un plantage) ;
+  8. apres un wipe, une fois le serveur pret : « wp start » par RCON si WipeProtection est la
+     (sinon sa protection dure 24 h au lieu de 3 h quand sa config arrive apres la nouvelle carte).
+
+Les codes couleur ANSI de RustDedicated (\x1b[37m...) sont retires de chaque ligne avant de la
+relayer a AMP et avant toute comparaison (« Server startup complete », « Saved ... ents »).
+Rust ecrit TOUJOURS « Generating procedural map » : monde neuf = « Couldn't load .../proceduralmap
+...sav - file doesn't exist », monde recharge = « Spawning N entities from save ».
 
 Rust lui-meme ne lit le mot de passe RCON que sur SA ligne de commande (+rcon.password) :
 il n'accepte pas de le prendre dans server.cfg. Il reste donc visible dans la liste des
@@ -73,6 +84,11 @@ IDENTITE_MOTIF = re.compile(r'^[A-Za-z0-9_-]{1,64}$')
 STEAMID_MOTIF = re.compile(r'^7656119\d{10}$')
 PLUGIN_MOTIF = re.compile(r'^[A-Za-z0-9_]{2,64}$')
 SAUVE_MOTIF = re.compile(r'^Saved [\d,. ]+ ents')
+ANSI = re.compile(rb'\x1b\[[0-9;]*[A-Za-z]')
+MONDE_NEUF = re.compile(r"^Couldn't load server/.*proceduralmap.*\.sav - file doesn't exist")
+MONDE_RECHARGE = re.compile(r'^Spawning ([\d,.]+) entities from save')
+AU_WIPE = os.path.join(ICI, 'oxide', 'plugins-au-prochain-wipe')
+PRECEDENTS = os.path.join(ICI, 'oxide', 'plugins-precedents')
 
 RYTHMES = {
     # valeur AMP : (tag officiel de Rust, fin du nom quand le nom contient {wipe})
@@ -589,6 +605,49 @@ def liste_plugins(reglages, avertir):
     return voulus, a_retirer
 
 
+def poser_plugins_du_wipe(reglages, maintenant, avertir):
+    """Au wipe, AVANT le demarrage : chaque <Nom>.cs de oxide/plugins-au-prochain-wipe/ (depose par la page
+    « Plugins Rust » du panel TeamKit) passe dans oxide/plugins/ ; la version d'avant est gardee dans
+    oxide/plugins-precedents/<Nom>.cs.<AAAAMMJJ-HHMMSS>. Un nom ou un contenu suspect reste ou il est."""
+    if not os.path.isdir(AU_WIPE):
+        return []
+    plugins = os.path.join(ICI, 'oxide', 'plugins')
+    os.makedirs(plugins, exist_ok=True)
+    date = paris(maintenant).strftime('%Y%m%d-%H%M%S')
+    poses = []
+    for nom in sorted(os.listdir(AU_WIPE)):
+        src = os.path.join(AU_WIPE, nom)
+        if not (nom.endswith('.cs') and PLUGIN_MOTIF.match(nom[:-3])) or os.path.islink(src) or not os.path.isfile(src):
+            avertir('plugins-au-prochain-wipe : « %s » ignore (attendu <Nom>.cs).' % texte_propre(nom)[:60])
+            continue
+        with open(src, 'rb') as f:
+            contenu = f.read(2100000)
+        if b'Oxide.Plugins' not in contenu or len(contenu) > 2000000:
+            avertir('plugins-au-prochain-wipe : %s ignore (pas un plugin Oxide, ou plus de 2 Mo).' % nom)
+            continue
+        cible = os.path.join(plugins, nom)
+        if os.path.isfile(cible):
+            os.makedirs(PRECEDENTS, exist_ok=True)
+            shutil.copy2(cible, os.path.join(PRECEDENTS, '%s.%s' % (nom, date)))
+        os.replace(src, cible)
+        poses.append(nom[:-3])
+    if poses:
+        dire('wipe : %d plugin(s) mis en service depuis oxide/plugins-au-prochain-wipe/ : %s '
+             '(anciennes versions dans oxide/plugins-precedents/).' % (len(poses), ', '.join(poses)))
+        if vrai(reglages.get('MajPluginsDemarrage', 'true')):
+            avertir('« Mettre a jour les plugins au demarrage » est sur Oui : uMod va remplacer ces versions '
+                    'par sa derniere. Pour une saison figee, mets ce reglage sur Non.')
+    return poses
+
+
+def creer_dossier_copypaste():
+    """CopyPaste plante (copylist, paste) si oxide/data/copypaste/ n'existe pas (vu au banc local le 18/10/2026)."""
+    d = os.path.join(ICI, 'oxide', 'data', 'copypaste')
+    if not os.path.isdir(d):
+        os.makedirs(d, exist_ok=True)
+        dire('dossier oxide/data/copypaste/ cree (CopyPaste en a besoin).')
+
+
 def gerer_plugins(reglages, avertir):
     if not vrai(reglages.get('InstallOxide', 'true')):
         return
@@ -879,8 +938,11 @@ def lancer(argv):
     dire('users.cfg : %d proprietaire(s), %d moderateur(s).'
          % (sum(l.startswith('ownerid') for l in admins), sum(l.startswith('moderatorid') for l in admins)))
     graine, rapport = preparer_monde(reglages, dossier, identite, taille, maintenant, avertir)
+    poses = poser_plugins_du_wipe(reglages, maintenant, avertir) if rapport.get('wipe') else []
     installer_oxide_si_absent(reglages)
     gerer_plugins(reglages, avertir)
+    if vrai(reglages.get('InstallOxide', 'true')):
+        creer_dossier_copypaste()
     try:
         args = construire(reglages, ports, joueurs, graine, perso, avertir)
     except Refus as e:
@@ -896,11 +958,12 @@ def lancer(argv):
          % (VERSION_MODELE, identite, taille, graine, joueurs, rythme, auto or 'non', lisible(prochain)))
     with open(ETAT, 'w', encoding='utf-8') as f:
         json.dump({'rcon_port': ports[2], 'identite': identite, 'graine': graine,
-                   'demarre_le': iso(maintenant), 'wipe': rapport.get('wipe')}, f)
-    return tourner(serveur + args, ports[2], mdp)
+                   'demarre_le': iso(maintenant), 'wipe': rapport.get('wipe'), 'plugins_poses_au_wipe': poses}, f)
+    wp = bool(rapport.get('wipe')) and os.path.isfile(os.path.join(ICI, 'oxide', 'plugins', 'WipeProtection.cs'))
+    return tourner(serveur + args, ports[2], mdp, apres_pret=['wp start'] if wp else [])
 
 
-def tourner(commande, port_rcon, mdp):
+def tourner(commande, port_rcon, mdp, apres_pret=()):
     rcon = Rcon(port_rcon, mdp)
     pret = threading.Event()
     sauve = threading.Event()
@@ -989,15 +1052,39 @@ def tourner(commande, port_rcon, mdp):
                     dire('commande non transmise (%s).' % e)
     threading.Thread(target=relais, daemon=True).start()
 
+    def apres_demarrage():
+        # Apres un wipe : WipeProtection compte ses 3 h depuis la creation de la carte ; si sa config arrive apres,
+        # il garde 24 h. « wp start » remet le compteur au demarrage (constat du banc local, 18/10/2026).
+        for c in apres_pret:
+            try:
+                reponse = rcon.commande(c, attendre=True, delai=20)
+                premiere = reponse.strip().split('\n')[0][:120] if reponse.strip() else ''
+                dire('apres le wipe : « %s » envoye par RCON%s' % (c, (' : ' + premiere) if premiere else ''))
+            except (OSError, ConnectionError) as e:
+                dire('apres le wipe : « %s » non transmis (%s) : le taper dans la console.' % (c, e))
+
     for brute in iter(proc.stdout.readline, b''):
+        brute = ANSI.sub(b'', brute)   # codes couleur retires : pour les regex d'AMP et pour nos comparaisons
         ecrire(brute if brute.endswith(b'\n') else brute + b'\n')
         texte = brute.decode('utf-8', 'replace').strip()
         if texte == 'Server startup complete':
+            if not pret.is_set() and apres_pret:
+                threading.Thread(target=apres_demarrage, daemon=True).start()
             pret.set()
         elif SAUVE_MOTIF.match(texte):
             sauve.set()
+        elif MONDE_NEUF.match(texte):
+            dire('monde neuf : aucune sauvegarde a recharger (carte generee).')
+        else:
+            m = MONDE_RECHARGE.match(texte)
+            if m:
+                dire('monde recharge depuis la sauvegarde (%s entites).' % m.group(1))
     code = proc.wait()
     rcon.fermer()
+    if arret['demande'] and sauve.is_set():
+        # RustDedicated rend -1 apres « quit » (255 sous Linux, 4294967295 sous Windows) : l'arret a ete demande
+        # et la sauvegarde vue, c'est un arret normal pour AMP.
+        return 0
     if code and not arret['demande']:
         dire('le serveur s\'est arrete (code %d).' % code)
     return code
