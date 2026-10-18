@@ -269,11 +269,35 @@ try:
 except L.Refus:
     ok('identité avec ../ refusée')
 
-joint = re.compile(K['Console.UserJoinRegex'].replace('(?<', '(?P<'))
-part = re.compile(K['Console.UserLeaveRegex'].replace('(?<', '(?P<'))
+class NetRegex:
+    """Une regex au format .NET (celui d'AMP) : un même nom de groupe peut revenir dans deux branches d'une alternative,
+    ce que le module re de Python refuse. Chaque occurrence reçoit un suffixe, et group() rend la première remplie."""
+    def __init__(self, motif):
+        vus = {}
+
+        def renomme(m):
+            n = m.group(1)
+            vus[n] = vus.get(n, 0) + 1
+            return '(?P<%s__%d>' % (n, vus[n])
+        self.r = re.compile(re.sub(r'\(\?<([A-Za-z_]\w*)>', renomme, motif))
+
+    def match(self, ligne):
+        m = self.r.match(ligne)
+        if not m:
+            return None
+        d = m.groupdict()
+        return type('M', (), {'group': lambda _s, n: next((v for k, v in d.items() if k.split('__')[0] == n and v is not None), None)})()
+
+
+joint = NetRegex(K['Console.UserJoinRegex'])
+part = NetRegex(K['Console.UserLeaveRegex'])
 m = joint.match('Kévin [TK] with steamid 76561197994679825 joined from ip 88.12.34.56:52011 with platform Steam')
 (ok if m and m.group('username') == 'Kévin [TK]' and m.group('userid') == '76561197994679825' else non)(
-    'regex d\'arrivée sur une vraie ligne de Rust')
+    'regex d\'arrivée sur une vraie ligne de Rust (« with steamid … joined from ip »)')
+# L'autre forme, vue sur le serveur le 18 oct. 2026 (AMP affichait 0 joueur alors que Kevin était connecté)
+m = joint.match('88.12.34.56:50413/76561197994679825/Kévin [TK] joined [windows/76561197994679825]')
+(ok if m and m.group('username') == 'Kévin [TK]' and m.group('userid') == '76561197994679825' and m.group('ip') == '88.12.34.56' else non)(
+    'regex d\'arrivée sur la forme « ip:port/steamid/pseudo joined [windows/…] »')
 m = part.match('88.12.34.56:52011/76561197994679825/Kévin [TK] disconnecting: closing')
 (ok if m and m.group('userid') == '76561197994679825' and m.group('username') == 'Kévin [TK]' else non)(
     'regex de départ sur une vraie ligne de Rust')
