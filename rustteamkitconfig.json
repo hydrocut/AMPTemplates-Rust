@@ -35,7 +35,7 @@
     "Subcategory": "Serveur",
     "ParamFieldName": "Hostname",
     "IncludeInCommandLine": false,
-    "DefaultValue": "[FR] TeamKit · Couronne de Rouille | 2x | Max 4 | {wipe}",
+    "DefaultValue": "[FR] Serveur Rust · TeamKit | {wipe}",
     "Keywords": "rust hostname"
   },
   {
@@ -47,7 +47,7 @@
     "Subcategory": "Serveur",
     "ParamFieldName": "ServerDescription",
     "IncludeInCommandLine": false,
-    "DefaultValue": "Serveur PvP francophone de TeamKit.fr. 100 % gratuit, aucune boutique, aucun avantage à acheter.\\n2x récolte · fabrication rapide · équipes de 4 au plus\\nWipe chaque jeudi à 20 h · plans au wipe forcé du mois\\nClassement par wipe : Tueur, Raider, Survivant, Fermier, Pêcheur…\\nRègles : pas de triche, pas d'alliance, pas de stream sniping, respect.\\nDiscord, règles et classement : teamkit.fr\\nFrench-speaking community PvP server. 2x, max 4, weekly wipe.\\nServeur communautaire non officiel, non affilié à Facepunch Studios.",
+    "DefaultValue": "Serveur Rust francophone hébergé gratuitement par TeamKit.fr.\\nDiscord et règles : teamkit.fr\\nServeur communautaire non officiel, non affilié à Facepunch Studios.",
     "Keywords": "rust serverdescription"
   },
   {
