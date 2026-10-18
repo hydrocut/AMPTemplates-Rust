@@ -86,7 +86,7 @@ for cle in ('ConfigManifest', 'MetaConfigManifest'):
         'Meta.%s = %s' % (cle, K.get('Meta.' + cle)))
 
 attendu = {'Meta.ConfigVersion': '8', 'Meta.ConfigReleaseState': 'NotSpecified',
-           'Meta.AppConfigId': APP_CONFIG_ID, 'App.ExitMethod': 'SIGTERM',
+           'Meta.AppConfigId': APP_CONFIG_ID, 'App.ExitMethod': 'String', 'App.ExitString': 'quit',
            'App.HasWriteableConsole': 'True', 'App.MonitorChildProcessName': 'RustDedicated',
            'App.ExecutableLinux': '/usr/bin/python3', 'App.MaxUsers': '150', 'App.PreStartStages': '[]'}
 for cle, v in attendu.items():
