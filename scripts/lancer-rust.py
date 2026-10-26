@@ -560,6 +560,20 @@ def telecharger(url, cible):
     return tmp
 
 
+def remettre_managed_si_absent():
+    # L'Update met Managed de cote avant SteamCMD (Steam bute sur les DLL modifiees par Oxide).
+    # Si SteamCMD a echoue ensuite, Managed manque : on remet l'ancien pour que le serveur demarre.
+    data = os.path.join(ICI, 'RustDedicated_Data')
+    managed, ancien = os.path.join(data, 'Managed'), os.path.join(data, 'Managed-avant-maj')
+    if os.path.isfile(os.path.join(managed, 'Assembly-CSharp.dll')) or not os.path.isdir(ancien):
+        return
+    if os.path.isdir(managed):
+        shutil.rmtree(managed, ignore_errors=True)
+    os.rename(ancien, managed)
+    dire('ATTENTION : la mise a jour de Steam n\'a pas abouti, ancien dossier Managed remis. '
+         'Relance Update dans AMP.')
+
+
 def installer_oxide_si_absent(reglages):
     if not vrai(reglages.get('InstallOxide', 'true')) or os.path.isfile(OXIDE_DLL):
         return
@@ -939,6 +953,7 @@ def lancer(argv):
          % (sum(l.startswith('ownerid') for l in admins), sum(l.startswith('moderatorid') for l in admins)))
     graine, rapport = preparer_monde(reglages, dossier, identite, taille, maintenant, avertir)
     poses = poser_plugins_du_wipe(reglages, maintenant, avertir) if rapport.get('wipe') else []
+    remettre_managed_si_absent()
     installer_oxide_si_absent(reglages)
     gerer_plugins(reglages, avertir)
     if vrai(reglages.get('InstallOxide', 'true')):

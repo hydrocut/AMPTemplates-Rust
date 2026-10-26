@@ -1,5 +1,13 @@
 [
   {
+    "UpdateStageName": "Mise de côté des fichiers modifiés par Oxide (sinon Steam refuse la mise à jour)",
+    "UpdateSourcePlatform": "Linux",
+    "UpdateSource": "Executable",
+    "UpdateSourceData": "/bin/bash",
+    "UpdateSourceArgs": "-c \"D={{$FullBaseDir}}RustDedicated_Data; if [ -f $D/Managed/Oxide.Rust.dll ]; then rm -rf $D/Managed-avant-maj && mv $D/Managed $D/Managed-avant-maj && echo TeamKit : Managed mis de cote, Steam le retelecharge propre; fi; true\"",
+    "SkipOnFailure": true
+  },
+  {
     "UpdateStageName": "SteamCMD Download",
     "UpdateSourcePlatform": "Linux",
     "UpdateSource": "SteamCMD",

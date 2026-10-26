@@ -362,6 +362,32 @@ for etape in data[NOM + 'updates.json']:
             (ok if etape['UpdateSourceTarget'] == '{{$FullRootDir}}'
              and meta['ConfigFileTemplate'] == 'rust/' + etape['UpdateSourceArgs'] else non)(
                 'modèle posé là où metaconfig le cherche (rust/%s)' % etape['UpdateSourceArgs'])
+# Steam bute sur les DLL modifiées par Oxide (« Corrupt game files », état 0x486, vu le 26/10/2026) :
+# Managed est mis de côté AVANT SteamCMD, et le lanceur le remet si SteamCMD a échoué ensuite.
+etapes = data[NOM + 'updates.json']
+noms = [e.get('UpdateSource') for e in etapes]
+mise = etapes[0] if etapes else {}
+(ok if noms[:2] == ['Executable', 'SteamCMD'] and 'Managed-avant-maj' in mise.get('UpdateSourceArgs', '')
+ else non)('Update : Managed mis de côté juste avant SteamCMD')
+corps = mise.get('UpdateSourceArgs', '')
+(ok if corps.startswith('-c "') and corps.endswith('"') and '"' not in corps[4:-1] and mise.get('SkipOnFailure')
+ else non)('étape de mise de côté : aucun guillemet double interne, sans bloquer l\'Update')
+with tempfile.TemporaryDirectory() as t:
+    data_dir = os.path.join(t, 'RustDedicated_Data')
+    os.makedirs(os.path.join(data_dir, 'Managed-avant-maj'))
+    open(os.path.join(data_dir, 'Managed-avant-maj', 'Assembly-CSharp.dll'), 'w').close()
+    ancien_ici, L.ICI = L.ICI, t
+    try:
+        L.remettre_managed_si_absent()
+        (ok if os.path.isfile(os.path.join(data_dir, 'Managed', 'Assembly-CSharp.dll'))
+         and not os.path.exists(os.path.join(data_dir, 'Managed-avant-maj')) else non)(
+            'SteamCMD en échec : le lanceur remet l\'ancien Managed')
+        os.makedirs(os.path.join(data_dir, 'Managed-avant-maj'))
+        L.remettre_managed_si_absent()
+        (ok if os.path.isdir(os.path.join(data_dir, 'Managed-avant-maj')) else non)(
+            'Update réussie : le lanceur ne touche pas au Managed neuf')
+    finally:
+        L.ICI = ancien_ici
 manif = data['manifest.json']
 (ok if manif['url'] == 'https://github.com/hydrocut/AMPTemplates-Rust' else non)('URL du manifest')
 try:
