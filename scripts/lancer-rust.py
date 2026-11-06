@@ -560,18 +560,30 @@ def telecharger(url, cible):
     return tmp
 
 
+def managed_complet(dossier):
+    # Assembly-CSharp.dll ne prouve rien : Oxide le pose aussi. 5 nov. 2026 : Steam avait echoue, Oxide avait recree un
+    # Managed de 23 fichiers, le test passait, et le jeu ne demarrait plus. mscorlib.dll ne vient que de Steam.
+    return os.path.isfile(os.path.join(dossier, 'mscorlib.dll'))
+
+
 def remettre_managed_si_absent():
     # L'Update met Managed de cote avant SteamCMD (Steam bute sur les DLL modifiees par Oxide).
-    # Si SteamCMD a echoue ensuite, Managed manque : on remet l'ancien pour que le serveur demarre.
+    # Si SteamCMD a echoue ensuite, Managed manque ou est incomplet : on remet l'ancien pour que le serveur demarre.
+    # Renvoie False si le jeu ne peut pas demarrer : on s'arrete AVANT le wipe.
+    if os.environ.get('TK_RUST_CMD'):
+        return True
     data = os.path.join(ICI, 'RustDedicated_Data')
     managed, ancien = os.path.join(data, 'Managed'), os.path.join(data, 'Managed-avant-maj')
-    if os.path.isfile(os.path.join(managed, 'Assembly-CSharp.dll')) or not os.path.isdir(ancien):
-        return
+    if managed_complet(managed):
+        return True
+    if not managed_complet(ancien):
+        return False
     if os.path.isdir(managed):
         shutil.rmtree(managed, ignore_errors=True)
     os.rename(ancien, managed)
     dire('ATTENTION : la mise a jour de Steam n\'a pas abouti, ancien dossier Managed remis. '
          'Relance Update dans AMP.')
+    return True
 
 
 def installer_oxide_si_absent(reglages):
@@ -943,6 +955,10 @@ def lancer(argv):
         dire('Va dans Configuration > Rust TeamKit > Admins et RCON, choisis un mot de passe RCON '
              'de 12 caracteres ou plus (lettres, chiffres, point, tiret), enregistre, puis demarre.')
         return 1
+    if not remettre_managed_si_absent():
+        dire('DEMARRAGE REFUSE : le jeu est incomplet (mscorlib.dll manque, la mise a jour de Steam a echoue) et aucun '
+             'ancien dossier a remettre. Aucun wipe n\'a ete fait. Relance Update dans AMP, puis demarre.')
+        return 1
     dossier = os.path.join(ICI, 'server', identite)
     os.makedirs(os.path.join(dossier, 'cfg'), exist_ok=True)
     maintenant = maintenant_utc()
@@ -953,7 +969,6 @@ def lancer(argv):
          % (sum(l.startswith('ownerid') for l in admins), sum(l.startswith('moderatorid') for l in admins)))
     graine, rapport = preparer_monde(reglages, dossier, identite, taille, maintenant, avertir)
     poses = poser_plugins_du_wipe(reglages, maintenant, avertir) if rapport.get('wipe') else []
-    remettre_managed_si_absent()
     installer_oxide_si_absent(reglages)
     gerer_plugins(reglages, avertir)
     if vrai(reglages.get('InstallOxide', 'true')):

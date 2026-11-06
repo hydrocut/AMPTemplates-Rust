@@ -4,7 +4,7 @@
     "UpdateSourcePlatform": "Linux",
     "UpdateSource": "Executable",
     "UpdateSourceData": "/bin/bash",
-    "UpdateSourceArgs": "-c \"D={{$FullBaseDir}}RustDedicated_Data; if [ -f $D/Managed/Oxide.Rust.dll ]; then rm -rf $D/Managed-avant-maj && mv $D/Managed $D/Managed-avant-maj && echo TeamKit : Managed mis de cote, Steam le retelecharge propre; fi; true\"",
+    "UpdateSourceArgs": "-c \"D={{$FullBaseDir}}RustDedicated_Data; if [ -f $D/Managed/mscorlib.dll ]; then rm -rf $D/Managed-avant-maj && mv $D/Managed $D/Managed-avant-maj && echo TeamKit : Managed mis de cote, Steam le retelecharge propre; elif [ -d $D/Managed ]; then rm -rf $D/Managed && echo TeamKit : Managed incomplet retire, la copie de cote est gardee; fi; true\"",
     "SkipOnFailure": true
   },
   {

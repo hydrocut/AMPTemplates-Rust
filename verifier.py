@@ -374,20 +374,34 @@ corps = mise.get('UpdateSourceArgs', '')
  else non)('étape de mise de côté : aucun guillemet double interne, sans bloquer l\'Update')
 with tempfile.TemporaryDirectory() as t:
     data_dir = os.path.join(t, 'RustDedicated_Data')
+    # 5 nov. 2026 : Steam échoue, Oxide recrée un Managed de 23 fichiers avec son Assembly-CSharp.dll : le jeu ne démarre plus
+    os.makedirs(os.path.join(data_dir, 'Managed'))
+    open(os.path.join(data_dir, 'Managed', 'Assembly-CSharp.dll'), 'w').close()
     os.makedirs(os.path.join(data_dir, 'Managed-avant-maj'))
-    open(os.path.join(data_dir, 'Managed-avant-maj', 'Assembly-CSharp.dll'), 'w').close()
+    open(os.path.join(data_dir, 'Managed-avant-maj', 'mscorlib.dll'), 'w').close()
     ancien_ici, L.ICI = L.ICI, t
+    cmd_avant = os.environ.pop('TK_RUST_CMD', None)
     try:
-        L.remettre_managed_si_absent()
-        (ok if os.path.isfile(os.path.join(data_dir, 'Managed', 'Assembly-CSharp.dll'))
+        r = L.remettre_managed_si_absent()
+        (ok if r is True and os.path.isfile(os.path.join(data_dir, 'Managed', 'mscorlib.dll'))
          and not os.path.exists(os.path.join(data_dir, 'Managed-avant-maj')) else non)(
-            'SteamCMD en échec : le lanceur remet l\'ancien Managed')
+            'SteamCMD en échec, Oxide seul dans Managed : le lanceur remet l\'ancien Managed')
         os.makedirs(os.path.join(data_dir, 'Managed-avant-maj'))
-        L.remettre_managed_si_absent()
-        (ok if os.path.isdir(os.path.join(data_dir, 'Managed-avant-maj')) else non)(
+        r = L.remettre_managed_si_absent()
+        (ok if r is True and os.path.isdir(os.path.join(data_dir, 'Managed-avant-maj')) else non)(
             'Update réussie : le lanceur ne touche pas au Managed neuf')
+        os.remove(os.path.join(data_dir, 'Managed', 'mscorlib.dll'))
+        (ok if L.remettre_managed_si_absent() is False else non)(
+            'jeu incomplet et rien à remettre : démarrage refusé')
     finally:
         L.ICI = ancien_ici
+        if cmd_avant is not None:
+            os.environ['TK_RUST_CMD'] = cmd_avant
+source_lanceur = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts', 'lancer-rust.py'), encoding='utf-8').read()
+(ok if source_lanceur.index('if not remettre_managed_si_absent()') < source_lanceur.index('graine, rapport = preparer_monde(') else non)(
+    'le jeu est contrôlé AVANT le wipe')
+(ok if 'Managed/mscorlib.dll' in corps and 'copie de cote est gardee' in corps else non)(
+    'une 2e mise à jour n\'écrase pas la bonne copie de côté')
 manif = data['manifest.json']
 (ok if manif['url'] == 'https://github.com/hydrocut/AMPTemplates-Rust' else non)('URL du manifest')
 try:
