@@ -921,6 +921,73 @@ def maintenant_utc():
     return dt.datetime.now(dt.timezone.utc)
 
 
+def autres_serveurs():
+    """Les RustDedicated qui tournent deja dans ce conteneur (pid), hors de ce script."""
+    pids = []
+    if not os.path.isdir('/proc'):
+        return pids
+    for nom in os.listdir('/proc'):
+        if not nom.isdigit() or int(nom) == os.getpid():
+            continue
+        try:
+            with open('/proc/%s/cmdline' % nom, 'rb') as f:
+                premier = f.read().split(b'\0')[0]
+        except OSError:
+            continue
+        if os.path.basename(premier.decode('utf-8', 'replace')) == 'RustDedicated':
+            pids.append(int(nom))
+    return pids
+
+
+def attendre_ancien_serveur(port_rcon, mdp, attente=150, pause=time.sleep, horloge=time.monotonic,
+                            trouver=autres_serveurs, tuer=os.kill):
+    """7 nov. 2026 (Rust en double apres la mise a jour de midi) : AMP a relance le jeu pendant que l'ancien serveur
+    finissait de se fermer (il sauvegarde la carte en quittant). Le nouveau ne pouvait pas prendre le port RCON, AMP ne le
+    voyait jamais pret, et un 2e demarrage en a lance un 3e. Avant de toucher au monde : on attend que l'ancien ait fini ;
+    s'il reste, on lui demande server.save puis quit par RCON, puis SIGTERM, puis SIGKILL. Renvoie True si la place est libre."""
+    def attendre(secondes):
+        fin = horloge() + secondes
+        while horloge() < fin:
+            if not trouver():
+                return True
+            pause(2)
+        return not trouver()
+    pids = trouver()
+    if not pids:
+        return True
+    dire('TeamKit : un ancien serveur Rust tourne encore (pid %s). J\'attends qu\'il finisse de se fermer '
+         '(%d s au plus) avant de demarrer : deux serveurs ne peuvent pas partager les memes ports.'
+         % (', '.join(map(str, pids)), attente))
+    if attendre(attente):
+        dire('TeamKit : l\'ancien serveur est ferme, on demarre.')
+        return True
+    dire('TeamKit : il tourne toujours. Sauvegarde de la carte puis fermeture par RCON...')
+    rcon = Rcon(port_rcon, mdp)
+    try:
+        rcon.commande('server.save', attendre=True, delai=90)
+        rcon.commande('quit', attendre=False)
+    except Exception:
+        dire('TeamKit : le RCON de l\'ancien serveur ne repond pas.')
+    finally:
+        try:
+            rcon.fermer()
+        except Exception:
+            pass
+    if attendre(120):
+        dire('TeamKit : l\'ancien serveur s\'est ferme proprement, on demarre.')
+        return True
+    for sig, delai in ((signal.SIGTERM, 30), (getattr(signal, 'SIGKILL', 9), 10)):
+        for p in trouver():
+            try:
+                tuer(p, sig)
+            except OSError:
+                pass
+        if attendre(delai):
+            dire('TeamKit : ancien serveur arrete (%s), on demarre.' % ('SIGTERM' if sig == signal.SIGTERM else 'SIGKILL'))
+            return True
+    return False
+
+
 def lancer(argv):
     if len(argv) < 5 or not all(re.match(r'^\d{1,5}$', a) for a in argv[:4]):
         dire('ERREUR : arguments attendus : <port jeu> <port requetes> <port rcon> <port rust+> '
@@ -954,6 +1021,11 @@ def lancer(argv):
         dire('DEMARRAGE REFUSE : ' + str(e))
         dire('Va dans Configuration > Rust TeamKit > Admins et RCON, choisis un mot de passe RCON '
              'de 12 caracteres ou plus (lettres, chiffres, point, tiret), enregistre, puis demarre.')
+        return 1
+    # avant TOUT le reste (Managed, monde, wipe) : jamais deux serveurs sur les memes fichiers et les memes ports
+    if not attendre_ancien_serveur(ports[2], mdp):
+        dire('DEMARRAGE REFUSE : un ancien serveur Rust refuse de se fermer dans ce conteneur. Arrete l\'instance '
+             'dans AMP, attends une minute, puis demarre.')
         return 1
     if not remettre_managed_si_absent():
         dire('DEMARRAGE REFUSE : le jeu est incomplet (mscorlib.dll manque, la mise a jour de Steam a echoue) et aucun '
